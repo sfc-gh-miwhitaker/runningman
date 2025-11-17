@@ -57,13 +57,14 @@ CREATE OR REPLACE API INTEGRATION RUNNINGMAN_GIT_INTEGRATION
   COMMENT = 'DEMO: API integration for runningman git repository';
 
 -- Create git repository stage (clones the remote repository)
+-- Using unqualified name here is safe because we just set the context above
 CREATE OR REPLACE GIT REPOSITORY RUNNINGMAN_GIT_REPO
   API_INTEGRATION = RUNNINGMAN_GIT_INTEGRATION
   ORIGIN = 'https://github.com/sfc-gh-miwhitaker/runningman.git'
   COMMENT = 'DEMO: Git repository for Global Marathon Analytics demo';
 
--- Fetch latest from remote
-ALTER GIT REPOSITORY RUNNINGMAN_GIT_REPO FETCH;
+-- Fetch latest from remote (use fully qualified name for idempotency)
+ALTER GIT REPOSITORY SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO FETCH;
 
 /*******************************************************************************
  * STEP 2: SETUP - Additional Schemas, Warehouse, Role
