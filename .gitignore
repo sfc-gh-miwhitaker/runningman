@@ -1,0 +1,21 @@
+# Dev artifacts
+.cursor/
+
+# Virtual envs
+venv/
+.venv/
+*.venv/
+
+# Config with secrets
+config/.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
