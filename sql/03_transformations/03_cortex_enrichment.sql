@@ -29,13 +29,6 @@ SELECT
 FROM RAW_INGESTION.SOCIAL_MEDIA_POSTS smp
 JOIN RAW_INGESTION.MARATHONS m ON smp.marathon_id = m.marathon_id;
 
-SELECT 'Cortex enrichment complete' AS status;
-SELECT 'ENRICHED_SOCIAL_MEDIA: ' || COUNT(*) || ' rows' AS status FROM ENRICHED_SOCIAL_MEDIA;
-SELECT sentiment_category, COUNT(*) AS post_count 
-FROM ENRICHED_SOCIAL_MEDIA 
-GROUP BY sentiment_category
-ORDER BY sentiment_category;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

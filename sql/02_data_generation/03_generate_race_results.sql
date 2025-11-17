@@ -35,8 +35,6 @@ SELECT
     CASE WHEN UNIFORM(1, 100, RANDOM(7000)) <= 20 THEN TRUE ELSE FALSE END AS qualified_for_boston
 FROM TABLE(GENERATOR(ROWCOUNT => 300000));
 
-SELECT 'Race results created: ' || COUNT(*) || ' rows' AS status FROM RACE_RESULTS;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

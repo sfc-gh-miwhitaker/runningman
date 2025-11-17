@@ -36,8 +36,6 @@ SELECT
 FROM MARATHONS m
 CROSS JOIN (SELECT 2023 AS year UNION ALL SELECT 2024 UNION ALL SELECT 2025) y;
 
-SELECT 'Broadcast metrics created: ' || COUNT(*) || ' rows' AS status FROM BROADCAST_METRICS;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

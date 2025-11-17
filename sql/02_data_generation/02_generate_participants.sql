@@ -47,8 +47,6 @@ SELECT
     UNIFORM(2021, 2025, RANDOM(400)) AS registration_year
 FROM TABLE(GENERATOR(ROWCOUNT => 50000));
 
-SELECT 'Participants created: ' || COUNT(*) || ' rows' AS status FROM PARTICIPANTS;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

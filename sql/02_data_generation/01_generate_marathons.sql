@@ -41,9 +41,6 @@ INSERT INTO MARATHONS VALUES
   (4, 'Berlin Marathon', 'Berlin', 'Germany', 'September', 20, 'Easy', 1974, 45000),
   (5, 'Chicago Marathon', 'Chicago', 'USA', 'October', 15, 'Easy', 1977, 45000),
   (6, 'New York City Marathon', 'New York', 'USA', 'November', 280, 'Moderate', 1970, 53000);
-
--- Verify
-SELECT 'Marathons table created: ' || COUNT(*) || ' rows' AS status FROM MARATHONS;
 SELECT * FROM MARATHONS ORDER BY marathon_id;
 
 /*******************************************************************************

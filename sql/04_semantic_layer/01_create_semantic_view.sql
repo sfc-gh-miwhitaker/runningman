@@ -80,11 +80,9 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
 
 GRANT SELECT ON SEMANTIC VIEW MARATHON_INSIGHTS TO ROLE SFE_MARATHON_ROLE;
 
-SELECT 'Semantic view created successfully' AS status;
-
 /*******************************************************************************
  * USAGE:
  * 1. AI & ML > Snowflake Intelligence
- * 2. Create agent: "Marathon Analytics"
- * 3. Add data source: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS
+ * 2. Create agent: "Marathon Analytics"  
+ * 3. Connect: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS
  ******************************************************************************/

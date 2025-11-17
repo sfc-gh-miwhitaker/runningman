@@ -36,9 +36,6 @@ GRANT USAGE ON WAREHOUSE SFE_MARATHON_WH TO ROLE SFE_MARATHON_ROLE;
 -- Set as default warehouse for demo role
 ALTER ROLE SFE_MARATHON_ROLE SET DEFAULT_WAREHOUSE = SFE_MARATHON_WH;
 
--- Verify creation
-SELECT 'Warehouse created successfully' AS status;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

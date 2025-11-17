@@ -98,7 +98,7 @@ GRANT ROLE SFE_MARATHON_ROLE TO ROLE ACCOUNTADMIN;
 USE WAREHOUSE SFE_MARATHON_WH;
 USE SCHEMA RAW_INGESTION;
 
-SELECT '✓ Step 1/5 Complete: Database and warehouse created' AS STATUS;
+-- Step 1/5 Complete
 
 /*******************************************************************************
  * STEP 2: GENERATE SYNTHETIC DATA (This will take 2-3 minutes)
@@ -285,14 +285,7 @@ SELECT
 FROM MARATHONS m
 CROSS JOIN TABLE(GENERATOR(ROWCOUNT => 1000));  -- 1000 posts per marathon
 
-SELECT '✓ Step 2/5 Complete: Generated 360,000+ rows of synthetic data' AS STATUS;
-SELECT 
-    'Marathons: ' || COUNT(*) AS row_count FROM MARATHONS UNION ALL
-SELECT 'Participants: ' || COUNT(*) FROM PARTICIPANTS UNION ALL
-SELECT 'Race Results: ' || COUNT(*) FROM RACE_RESULTS UNION ALL
-SELECT 'Sponsors: ' || COUNT(*) FROM SPONSORS UNION ALL
-SELECT 'Activations: ' || COUNT(*) FROM SPONSOR_ACTIVATIONS UNION ALL
-SELECT 'Social Media: ' || COUNT(*) FROM SOCIAL_MEDIA_POSTS;
+-- Step 2/5 Complete: Data generation finished
 
 /*******************************************************************************
  * STEP 3: STAGING LAYER (Cleaned Views)
@@ -343,7 +336,7 @@ SELECT * FROM SNOWFLAKE_EXAMPLE.RAW_INGESTION.SPONSOR_ACTIVATIONS;
 CREATE OR REPLACE VIEW STG_SOCIAL_MEDIA AS
 SELECT * FROM SNOWFLAKE_EXAMPLE.RAW_INGESTION.SOCIAL_MEDIA_POSTS;
 
-SELECT '✓ Step 3/5 Complete: Staging views created' AS STATUS;
+-- Step 3/5 Complete
 
 /*******************************************************************************
  * STEP 4: ANALYTICS LAYER (Denormalized Tables)
@@ -423,7 +416,7 @@ SELECT
 FROM SNOWFLAKE_EXAMPLE.STAGING.STG_SOCIAL_MEDIA sm
 JOIN SNOWFLAKE_EXAMPLE.STAGING.STG_MARATHONS m ON sm.marathon_id = m.marathon_id;
 
-SELECT '✓ Step 4/5 Complete: Analytics tables created' AS STATUS;
+-- Step 4/5 Complete
 
 /*******************************************************************************
  * STEP 5: CORTEX AI ENRICHMENT (Sentiment Analysis)
@@ -457,16 +450,7 @@ SELECT
 FROM FCT_FAN_ENGAGEMENT
 WHERE sentiment_score IS NOT NULL;
 
-SELECT '✓ Step 5/5 Complete: Cortex AI enrichment applied' AS STATUS;
-
--- Verify sentiment distribution
-SELECT
-    sentiment_label,
-    COUNT(*) AS post_count,
-    ROUND(AVG(sentiment_score), 3) AS avg_score
-FROM FCT_FAN_ENGAGEMENT
-GROUP BY sentiment_label
-ORDER BY avg_score DESC;
+-- Step 5/5 Complete
 
 /*******************************************************************************
  * STEP 6: SEMANTIC VIEW FOR SNOWFLAKE INTELLIGENCE
@@ -523,48 +507,16 @@ COMMENT = 'DEMO: Unified view for Snowflake Intelligence natural language querie
 -- Grant access to semantic view
 GRANT SELECT ON VIEW MARATHON_INSIGHTS TO ROLE SFE_MARATHON_ROLE;
 
-SELECT '✓ Step 6/6 Complete: Semantic view created (MARATHON_INSIGHTS)' AS STATUS;
+-- Step 6/6 Complete
 
 /*******************************************************************************
- * DEPLOYMENT COMPLETE!
+ * DEPLOYMENT COMPLETE
+ * 
+ * NEXT STEPS:
+ * 1. AI & ML > Snowflake Intelligence > Create agent "Marathon Analytics"
+ * 2. Connect: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS
+ * 3. Try: "Show me average finish times by marathon"
+ * 
+ * CLEANUP: Run sql/99_cleanup/teardown_all.sql
  ******************************************************************************/
-
-SELECT '
-╔════════════════════════════════════════════════════════════════════╗
-║                    🎉 DEPLOYMENT COMPLETE! 🎉                     ║
-╔════════════════════════════════════════════════════════════════════╗
-
-DATABASE:     SNOWFLAKE_EXAMPLE
-WAREHOUSE:    SFE_MARATHON_WH
-ROLE:         SFE_MARATHON_ROLE
-SEMANTIC VIEW: ANALYTICS.MARATHON_INSIGHTS
-
-NEXT STEPS:
-1. Configure Snowflake Intelligence agent
-   - Navigate to: AI & ML > Snowflake Intelligence
-   - Create agent: "Marathon Analytics"
-   - Connect view: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS
-
-2. Test with sample queries:
-   - "Show me average finish times by marathon"
-   - "Which marathon had the most positive fan sentiment?"
-   - "Compare sponsor visibility across all events"
-
-3. Review documentation:
-   - Setup guide: docs/01-SETUP.md
-   - Demo script: docs/02-DEMO-SCRIPT.md
-   - Sample questions: docs/04-SAMPLE-QUESTIONS.md
-
-DATA GENERATED:
-  ✓ 12 marathons
-  ✓ 50,000 participants
-  ✓ 300,000+ race results
-  ✓ 8 sponsors
-  ✓ 10,000 social media posts (with sentiment analysis)
-
-CLEANUP:
-  To remove all demo objects, run: sql/99_cleanup/teardown_all.sql
-
-╚════════════════════════════════════════════════════════════════════╝
-' AS WELCOME_MESSAGE;
 

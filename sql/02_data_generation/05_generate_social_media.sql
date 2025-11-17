@@ -37,8 +37,6 @@ SELECT
     UNIFORM(10, 5000, RANDOM(50000)) AS engagement_count
 FROM TABLE(GENERATOR(ROWCOUNT => 10000));
 
-SELECT 'Social media posts created: ' || COUNT(*) || ' rows' AS status FROM SOCIAL_MEDIA_POSTS;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

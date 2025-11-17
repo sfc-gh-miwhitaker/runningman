@@ -62,9 +62,6 @@ CROSS JOIN MARATHONS m
 CROSS JOIN (SELECT 2023 AS year UNION ALL SELECT 2024 UNION ALL SELECT 2025) y
 WHERE UNIFORM(1, 100, RANDOM(s.sponsor_id * m.marathon_id)) > 50; -- Not all sponsors at all marathons
 
-SELECT 'Sponsors created: ' || COUNT(*) || ' rows' AS status FROM SPONSORS;
-SELECT 'Sponsor contracts created: ' || COUNT(*) || ' rows' AS status FROM SPONSOR_CONTRACTS;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

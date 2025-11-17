@@ -32,25 +32,6 @@ DROP WAREHOUSE IF EXISTS SFE_MARATHON_WH;
 -- Note: SNOWFLAKE_EXAMPLE database preserved for other demos
 -- To remove database: DROP DATABASE IF EXISTS SNOWFLAKE_EXAMPLE CASCADE;
 
--- Verification
-SELECT 'Cleanup complete. SNOWFLAKE_EXAMPLE database preserved.' AS status;
-SHOW SCHEMAS IN DATABASE SNOWFLAKE_EXAMPLE;
-SHOW WAREHOUSES LIKE 'SFE_MARATHON_WH';
-
-/*******************************************************************************
- * VERIFICATION QUERIES
- * 
- * Confirm all objects removed:
- ******************************************************************************/
-
--- Should return no results:
--- SHOW TABLES IN SCHEMA SNOWFLAKE_EXAMPLE.RAW_INGESTION;
--- SHOW VIEWS IN SCHEMA SNOWFLAKE_EXAMPLE.STAGING;
--- SHOW TABLES IN SCHEMA SNOWFLAKE_EXAMPLE.ANALYTICS;
-
--- Warehouse should not exist:
--- SHOW WAREHOUSES LIKE 'SFE_MARATHON_WH';
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

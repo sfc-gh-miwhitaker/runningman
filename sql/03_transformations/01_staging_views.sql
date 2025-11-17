@@ -68,9 +68,6 @@ SELECT
     engagement_count
 FROM RAW_INGESTION.SOCIAL_MEDIA_POSTS;
 
-SELECT 'Staging views created successfully' AS status;
-SHOW VIEWS IN SCHEMA STAGING;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

@@ -45,10 +45,6 @@ FROM RAW_INGESTION.SPONSORS s
 JOIN RAW_INGESTION.SPONSOR_CONTRACTS sc ON s.sponsor_id = sc.sponsor_id
 JOIN RAW_INGESTION.MARATHONS m ON sc.marathon_id = m.marathon_id;
 
-SELECT 'Analytics tables created successfully' AS status;
-SELECT 'FCT_MARATHON_PERFORMANCE: ' || COUNT(*) || ' rows' AS status FROM FCT_MARATHON_PERFORMANCE;
-SELECT 'FCT_SPONSOR_ROI: ' || COUNT(*) || ' rows' AS status FROM FCT_SPONSOR_ROI;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

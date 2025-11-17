@@ -66,9 +66,6 @@ GRANT SELECT ON FUTURE VIEWS IN SCHEMA ANALYTICS TO ROLE SFE_MARATHON_ROLE;
 -- Grant the role to ACCOUNTADMIN for demo convenience
 GRANT ROLE SFE_MARATHON_ROLE TO ROLE ACCOUNTADMIN;
 
--- Verify creation
-SELECT 'Database and schemas created successfully' AS status;
-
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/
