@@ -33,8 +33,13 @@ CREATE WAREHOUSE IF NOT EXISTS SFE_MARATHON_WH
 -- Grant usage to demo role
 GRANT USAGE ON WAREHOUSE SFE_MARATHON_WH TO ROLE SFE_MARATHON_ROLE;
 
--- Set as default warehouse for demo role
-ALTER ROLE SFE_MARATHON_ROLE SET DEFAULT_WAREHOUSE = SFE_MARATHON_WH;
+/*******************************************************************************
+ * NOTE: DEFAULT_WAREHOUSE is a USER property, not a ROLE property.
+ * Users can set their own default warehouse with:
+ *   ALTER USER <username> SET DEFAULT_WAREHOUSE = SFE_MARATHON_WH;
+ * 
+ * For this demo, explicit USE WAREHOUSE statements handle context.
+ ******************************************************************************/
 
 /*******************************************************************************
  * END OF SCRIPT

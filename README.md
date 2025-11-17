@@ -13,31 +13,46 @@ This is a reference implementation showcasing Snowflake Intelligence and Cortex 
 
 ## 👋 First Time Here?
 
-**100% Snowflake-Native Deployment** - No CLI tools required!
+**100% Snowflake-Native Deployment** - One file, one click!
 
-### Quick Start (3 steps)
+### Quick Start (Recommended)
 
-1. **Review Prerequisites** - `docs/01-SETUP.md` (2 min)
-   - Snowflake account with ACCOUNTADMIN role
-   - Cortex features enabled in your region
-   - Snowflake Intelligence access
-
-2. **Deploy in Snowsight** - `sql/00_deploy_all.sql` (10 min)
-   - Open Snowsight → Create new worksheet
-   - Copy-paste entire `sql/00_deploy_all.sql` file
+1. **Open & Run in Snowsight** (10 min)
+   - Open `sql/00_deploy_all.sql` in Snowsight
    - Click **"Run All"** ⚡
+   - Script automatically:
+     - Creates API integration for git access
+     - Creates git repository stage  
+     - Clones repo and executes all SQL files via `EXECUTE IMMEDIATE FROM`
    - Wait for data generation (~10 min)
+   - **Zero configuration required!**
 
-3. **Configure Intelligence Agent** - `docs/01-SETUP.md` (3 min)
+2. **Configure Intelligence Agent** (3 min)
    - AI & ML → Snowflake Intelligence
    - Create agent: "Marathon Analytics"
-   - Connect view: `MARATHON_INSIGHTS`
+   - Connect view: `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS`
 
-4. **Run Demo** - `docs/02-DEMO-SCRIPT.md` (30-45 min)
+3. **Run Demo** - `docs/02-DEMO-SCRIPT.md` (30-45 min)
    - Follow presenter script
    - Try queries from `docs/04-SAMPLE-QUESTIONS.md`
 
-**Total setup: ~15 minutes (all in browser!)** | **Demo: 30-45 minutes**
+**Total setup: ~15 minutes** | **Demo: 30-45 minutes**
+
+### What Happens Under the Hood?
+
+The `00_deploy_all.sql` script:
+1. Creates API integration (connects Snowflake to git)
+2. Creates git repository stage (clones your repo)
+3. Fetches latest code from remote
+4. Executes each SQL file using `EXECUTE IMMEDIATE FROM @repo/branches/main/sql/...`
+
+**Safe to re-run!** Uses `OR REPLACE` for idempotency.
+
+### Alternative: Manual Deployment
+
+For environments without git integration:
+1. Copy-paste each SQL file from `sql/` directories into Snowsight
+2. Execute in order: 01_setup → 02_data_generation → 03_transformations → 04_semantic_layer
 
 ---
 
