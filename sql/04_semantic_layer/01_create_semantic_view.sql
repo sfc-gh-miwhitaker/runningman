@@ -147,8 +147,8 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
       WITH SYNONYMS = ('avg concurrent viewers', 'live viewers'),
     broadcast.broadcast_duration_minutes AS AVG(broadcast.broadcast_duration_minutes)
       WITH SYNONYMS = ('broadcast duration', 'air time'),
-    broadcast.broadcast_region_count AS AVG(broadcast.broadcast_region_count)
-      WITH SYNONYMS = ('regions reached', 'market count')
+    broadcast.avg_region_count AS AVG(broadcast.broadcast_region_count)
+      WITH SYNONYMS = ('regions reached', 'market count', 'avg broadcast regions')
   )
   COMMENT = 'DEMO: Semantic view for Snowflake Intelligence - Marathon Analytics';
 
