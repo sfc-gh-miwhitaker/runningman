@@ -484,8 +484,8 @@ If Snowflake Intelligence is unavailable or gives poor results during the demo:
 
 **Fallback Option 1: Use SQL Directly**
 - Open Snowsight SQL editor
-- Run one of the queries from `sql/04_semantic_layer/02_verified_queries.sql`
-- Say: *"While Intelligence is in preview, we can also query the data directly using SQL. The semantic view still provides business-friendly column names."*
+- Run one of the queries from your verified SQL notebook (or adapt one of the sample topics from `docs/04-SAMPLE-QUESTIONS.md`)
+- Say: *"If Intelligence hiccups, we can always query the data directly using SQL—the semantic view still provides business-friendly column names."*
 
 **Fallback Option 2: Show the Semantic View Definition**
 - Navigate to `ANALYTICS.MARATHON_INSIGHTS`

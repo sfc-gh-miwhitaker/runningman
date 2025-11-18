@@ -21,8 +21,7 @@
 
 **Snowflake Intelligence (Required for NL queries):**
 - ✅ Cortex Analyst for natural language queries
-- ⚠️  Currently in Public Preview
-- Contact your Snowflake account team if not enabled
+- Ensure the feature is enabled in your account (contact your Snowflake team if access is missing)
 
 ### 3. Browser Access
 - Modern web browser (Chrome, Firefox, Safari, Edge)
@@ -58,6 +57,8 @@ SELECT SNOWFLAKE.CORTEX.SENTIMENT('This is a great demo!') AS test_sentiment;
 - Contact your Snowflake account team
 
 ### Step 3: Deploy Demo Environment (10 minutes)
+
+> **Standard practice:** Always copy/paste the full SQL file into a fresh Snowsight worksheet. Snowsight does not execute local files directly, so every deployment follows this “copy all → paste → Run All” flow.
 
 1. **Open the master deployment script:**
    - Navigate to `sql/00_deploy_all.sql` in this repository

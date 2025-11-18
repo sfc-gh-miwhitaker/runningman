@@ -442,8 +442,8 @@ Use the objection handling section from `docs/02-DEMO-SCRIPT.md`
 **Option 3:** Show SQL directly
 - Say: "Let me show you the underlying data using SQL"
 - Open Snowsight SQL editor
-- Run a query from `sql/04_semantic_layer/02_verified_queries.sql`
-- Say: "While Intelligence is in preview, we can always query directly"
+- Run a query from your verified SQL notebook (or adapt one of the sample questions from `docs/04-SAMPLE-QUESTIONS.md`)
+- Say: "If Intelligence ever hesitates, we can always query directly"
 
 ### Issue: Intelligence is Slow (>10 seconds)
 
@@ -519,7 +519,7 @@ Always have a backup plan:
 
 - Remember: They don't know what you planned to show
 - If a query fails, pivot smoothly
-- Acknowledge: "That's the nature of working with preview features"
+- Acknowledge: "That's the nature of live demos—always have a backup"
 - Show alternatives: "But here's what we can do..."
 
 ---

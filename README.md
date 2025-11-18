@@ -18,8 +18,8 @@ This is a flagship reference implementation that MUST set the bar for Snowflake 
 ### Quick Start (Recommended)
 
 1. **Open & Run in Snowsight** (10 min)
-   - Open `sql/00_deploy_all.sql` in Snowsight
-   - Click **"Run All"** ⚡
+   - Copy the entire `sql/00_deploy_all.sql` file into a new Snowsight worksheet
+   - Click **"Run All"** ⚡ (or Cmd/Ctrl+Shift+Enter)
    - Script automatically:
      - Creates API integration for git access
      - Creates git repository stage  
@@ -30,11 +30,11 @@ This is a flagship reference implementation that MUST set the bar for Snowflake 
 2. **Verify Intelligence Agent** (2 min)
    - Script now auto-creates agent `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT`
    - Confirm via Snowsight → AI & ML → Snowflake Intelligence (should see **Marathon Analytics**)
-   - (Optional) Customize instructions/model via `docs/06-INTELLIGENCE-AGENT.md`
+   - (Optional) Customize instructions/model via [docs/06-INTELLIGENCE-AGENT.md](docs/06-INTELLIGENCE-AGENT.md)
 
-3. **Run Demo** - `docs/02-DEMO-SCRIPT.md` (30-45 min)
+3. **Run Demo** - [docs/02-DEMO-SCRIPT.md](docs/02-DEMO-SCRIPT.md) (30-45 min)
    - Follow presenter script
-   - Try queries from `docs/04-SAMPLE-QUESTIONS.md`
+   - Try queries from [docs/04-SAMPLE-QUESTIONS.md](docs/04-SAMPLE-QUESTIONS.md)
 
 **Total setup: ~15 minutes** | **Demo: 30-45 minutes**
 
@@ -68,7 +68,7 @@ For environments without git integration:
 
 ### Technical Capabilities
 - **Snowflake Intelligence:** Natural language queries via Cortex Analyst
-- **Semantic Views (DDL):** Native Snowflake semantic layer (Public Preview)
+- **Semantic Views (DDL):** Native Snowflake semantic layer (`CREATE SEMANTIC VIEW`)
 - **Cortex AI Functions:** SENTIMENT, SUMMARIZE for text analysis
 - **Native Data Generation:** 100% Snowflake-native synthetic data using GENERATOR()
 - **Fan & Broadcast Facts:** Aggregated sentiment (FCT_FAN_ENGAGEMENT) and media reach (FCT_BROADCAST_REACH) exposed directly in the semantic view
@@ -146,7 +146,7 @@ Blend broadcast reach with Cortex-powered sentiment to highlight where brand imp
 
 **Sample Question:** *"Which marathon delivered the highest fan sentiment and total TV viewership in 2025?"*
 
-See `docs/04-SAMPLE-QUESTIONS.md` for 30+ additional queries.
+See [docs/04-SAMPLE-QUESTIONS.md](docs/04-SAMPLE-QUESTIONS.md) for 30+ additional queries.
 
 ---
 
@@ -179,7 +179,7 @@ See `diagrams/` directory for complete architecture diagrams:
 - **RANDOM()** with seeds for reproducible categorical data
 - **SEQ8()** for unique identifiers
 
-### Semantic Layer (Public Preview)
+### Semantic Layer (Native DDL)
 - **CREATE SEMANTIC VIEW** DDL (not YAML files)
 - Native Snowflake objects with RBAC integration
 - Verified Query Repository (VQR) for accuracy
@@ -194,8 +194,8 @@ See `diagrams/` directory for complete architecture diagrams:
 ## Support
 
 For questions or issues:
-1. Review `docs/05-TECHNICAL-REFERENCE.md` for architecture details
-2. Check `docs/03-DEMO-WALKTHROUGH.md` for troubleshooting
+1. Review [docs/05-TECHNICAL-REFERENCE.md](docs/05-TECHNICAL-REFERENCE.md) for architecture details
+2. Check [docs/03-DEMO-WALKTHROUGH.md](docs/03-DEMO-WALKTHROUGH.md) for troubleshooting
 3. Contact your Snowflake account team for Snowflake Intelligence access
 
 ---

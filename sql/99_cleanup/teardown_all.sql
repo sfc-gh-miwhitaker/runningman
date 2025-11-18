@@ -29,8 +29,9 @@ DROP SCHEMA IF EXISTS SNOWFLAKE_EXAMPLE.ANALYTICS CASCADE;
 -- Drop dedicated warehouse
 DROP WAREHOUSE IF EXISTS SFE_MARATHON_WH;
 
--- Note: SNOWFLAKE_EXAMPLE database preserved for other demos
--- To remove database: DROP DATABASE IF EXISTS SNOWFLAKE_EXAMPLE CASCADE;
+-- NOTE: SNOWFLAKE_EXAMPLE database is intentionally preserved for other demos
+-- NOTE: Do NOT drop shared SFE_* API integrations (may be used by sibling projects)
+-- To remove database entirely (not recommended): DROP DATABASE IF EXISTS SNOWFLAKE_EXAMPLE CASCADE;
 
 /*******************************************************************************
  * END OF SCRIPT

@@ -238,9 +238,9 @@ SELECT * FROM TABLE(GENERATOR(ROWCOUNT => 50000))
 
 **Component:** MARATHON_INSIGHTS Semantic View  
 **Purpose:** Map business terminology to database schema for natural language queries  
-**Technology:** CREATE SEMANTIC VIEW (DDL) - Public Preview  
+**Technology:** CREATE SEMANTIC VIEW (DDL)  
 **Location:** `sql/04_semantic_layer/01_create_semantic_view.sql`  
-**Dependencies:** ANALYTICS fact tables, semantic view preview feature enabled
+**Dependencies:** ANALYTICS fact tables, semantic view feature enabled in account
 
 **Structure:**
 - **Logical Tables:** marathon_performance, sponsor_roi, fan_engagement

@@ -64,7 +64,7 @@ ANALYTICS Schema (Business Layer)
 - **Purpose:** Business terminology mapping for natural language
 - **Implementation:** CREATE SEMANTIC VIEW (DDL)
 - **Format:** Native Snowflake object (not YAML file)
-- **Status:** Public Preview (as of April 2025)
+- **Status:** Generally available (enable Snowflake Intelligence + semantic views in your account)
 
 ---
 
@@ -283,10 +283,10 @@ WHERE LENGTH(post_text) > 500;
 
 **Cost:** 0.10 credits per 1M tokens
 
-### Semantic Views (Public Preview)
+### Semantic Views (Native DDL)
 
 **Feature:** CREATE SEMANTIC VIEW  
-**Status:** Public Preview (April 2025)  
+**Status:** Generally available (enable via Snowflake Support if not visible)  
 **Alternative:** YAML semantic models (being deprecated)
 
 **Why DDL over YAML:**
@@ -644,11 +644,11 @@ CREATE SEMANTIC VIEW ...
 -- Error: Unknown command 'CREATE SEMANTIC VIEW'
 ```
 
-**Cause:** Semantic views are in Public Preview (not all accounts)
+**Cause:** Semantic view DDL not enabled for your account/region.
 
 **Solution:**
-1. Contact Snowflake support to enable preview features
-2. Or use YAML semantic models as fallback (see docs)
+1. Contact Snowflake Support to enable `CREATE SEMANTIC VIEW` (part of the Snowflake Intelligence feature)
+2. As a fallback, you can temporarily use YAML semantic models until DDL access is granted
 
 ### Issue 3: Intelligence Returns "I don't have enough information"
 
@@ -736,7 +736,7 @@ CREATE SCHEMA DEV_ANALYTICS CLONE PROD_ANALYTICS;
 | **RBAC** | Stage-level only | Full Snowflake RBAC |
 | **Discoverability** | Manual file browsing | `SHOW SEMANTIC VIEWS` |
 | **Management** | Stage uploads | `CREATE/ALTER/DROP` commands |
-| **Status** | Being deprecated | Public Preview (Apr 2025) |
+| **Status** | Being deprecated | Generally available (enable via Support if missing) |
 | **Recommendation** | Migrate away | Use for new projects |
 
 ### Data Generation: Native vs. External
