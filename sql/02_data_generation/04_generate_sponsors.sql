@@ -43,24 +43,24 @@ SELECT
     m.marathon_id,
     y.year AS contract_year,
     CASE s.sponsorship_tier
-        WHEN 'Platinum' THEN UNIFORM(2000000, 5000000, RANDOM(s.sponsor_id * 100))
-        WHEN 'Gold' THEN UNIFORM(500000, 2000000, RANDOM(s.sponsor_id * 200))
-        ELSE UNIFORM(100000, 500000, RANDOM(s.sponsor_id * 300))
+        WHEN 'Platinum' THEN UNIFORM(2000000, 5000000, RANDOM())
+        WHEN 'Gold' THEN UNIFORM(500000, 2000000, RANDOM())
+        ELSE UNIFORM(100000, 500000, RANDOM())
     END AS contract_value,
     CASE s.sponsorship_tier
-        WHEN 'Platinum' THEN UNIFORM(500000, 1500000, RANDOM(s.sponsor_id * 400))
-        WHEN 'Gold' THEN UNIFORM(100000, 500000, RANDOM(s.sponsor_id * 500))
-        ELSE UNIFORM(20000, 100000, RANDOM(s.sponsor_id * 600))
+        WHEN 'Platinum' THEN UNIFORM(500000, 1500000, RANDOM())
+        WHEN 'Gold' THEN UNIFORM(100000, 500000, RANDOM())
+        ELSE UNIFORM(20000, 100000, RANDOM())
     END AS activation_spend,
     CASE s.sponsorship_tier
-        WHEN 'Platinum' THEN UNIFORM(180, 300, RANDOM(s.sponsor_id * 700))
-        WHEN 'Gold' THEN UNIFORM(60, 180, RANDOM(s.sponsor_id * 800))
-        ELSE UNIFORM(15, 60, RANDOM(s.sponsor_id * 900))
+        WHEN 'Platinum' THEN UNIFORM(180, 300, RANDOM())
+        WHEN 'Gold' THEN UNIFORM(60, 180, RANDOM())
+        ELSE UNIFORM(15, 60, RANDOM())
     END AS media_exposure_minutes
 FROM SPONSORS s
 CROSS JOIN MARATHONS m
 CROSS JOIN (SELECT 2023 AS year UNION ALL SELECT 2024 UNION ALL SELECT 2025) y
-WHERE UNIFORM(1, 100, RANDOM(s.sponsor_id * m.marathon_id)) > 50; -- Not all sponsors at all marathons
+WHERE UNIFORM(1, 100, RANDOM()) > 50; -- Not all sponsors at all marathons
 
 /*******************************************************************************
  * END OF SCRIPT
