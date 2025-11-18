@@ -119,16 +119,16 @@ EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branche
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/01_staging_views.sql';
 
 /*******************************************************************************
- * STEP 6: ANALYTICS LAYER - Denormalized Tables  
- ******************************************************************************/
-
-EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/02_analytics_tables.sql';
-
-/*******************************************************************************
- * STEP 7: CORTEX AI ENRICHMENT - Sentiment Analysis
+ * STEP 6: CORTEX AI ENRICHMENT - Sentiment Analysis
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/03_cortex_enrichment.sql';
+
+/*******************************************************************************
+ * STEP 7: ANALYTICS LAYER - Denormalized Tables  
+ ******************************************************************************/
+
+EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/02_analytics_tables.sql';
 
 /*******************************************************************************
  * STEP 8: SEMANTIC VIEW - Snowflake Intelligence
