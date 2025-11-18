@@ -50,31 +50,37 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
     fan_engagement(marathon_id) REFERENCES marathons(marathon_id)
   )
   DIMENSIONS (
-    marathons.marathon_name WITH SYNONYMS = ('event name'),
-    marathons.city,
-    marathons.country,
-    marathons.event_year WITH SYNONYMS = ('year'),
-    participants.full_name WITH SYNONYMS = ('runner name'),
-    participants.gender,
-    participants.age,
-    participants.country AS runner_country,
-    sponsors.sponsor_name,
-    sponsors.industry,
-    sponsors.sponsorship_tier WITH SYNONYMS = ('tier'),
-    performance.overall_rank WITH SYNONYMS = ('position'),
-    fan_engagement.sentiment_label WITH SYNONYMS = ('sentiment')
+    marathons.marathon_name AS marathons.marathon_name
+      WITH SYNONYMS = ('event name'),
+    marathons.city AS marathons.city,
+    marathons.country AS marathons.country,
+    marathons.event_year AS marathons.event_year
+      WITH SYNONYMS = ('year'),
+    participants.full_name AS participants.full_name
+      WITH SYNONYMS = ('runner name'),
+    participants.gender AS participants.gender,
+    participants.age AS participants.age,
+    participants.runner_country AS participants.country,
+    sponsors.sponsor_name AS sponsors.sponsor_name,
+    sponsors.industry AS sponsors.industry,
+    sponsors.sponsorship_tier AS sponsors.sponsorship_tier
+      WITH SYNONYMS = ('tier'),
+    performance.overall_rank AS performance.overall_rank
+      WITH SYNONYMS = ('position'),
+    fan_engagement.sentiment_label AS fan_engagement.sentiment_label
+      WITH SYNONYMS = ('sentiment')
   )
   METRICS (
-    AVG(performance.finish_time_minutes) AS avg_finish_time
+    performance.avg_finish_time AS AVG(performance.finish_time_minutes)
       WITH SYNONYMS = ('average time'),
-    AVG(performance.pace_min_per_km) AS avg_pace,
-    COUNT(DISTINCT performance.participant_id) AS participant_count
+    performance.avg_pace AS AVG(performance.pace_min_per_km),
+    performance.participant_count AS COUNT(DISTINCT performance.participant_id)
       WITH SYNONYMS = ('runner count'),
-    AVG(sponsor_perf.exposure_minutes) AS avg_exposure,
-    AVG(sponsor_perf.engagement_score) AS avg_engagement,
-    AVG(fan_engagement.sentiment_score) AS avg_sentiment,
-    SUM(fan_engagement.likes) AS total_likes,
-    SUM(fan_engagement.shares) AS total_shares
+    sponsor_perf.avg_exposure AS AVG(sponsor_perf.exposure_minutes),
+    sponsor_perf.avg_engagement AS AVG(sponsor_perf.engagement_score),
+    fan_engagement.avg_sentiment AS AVG(fan_engagement.sentiment_score),
+    fan_engagement.total_likes AS SUM(fan_engagement.likes),
+    fan_engagement.total_shares AS SUM(fan_engagement.shares)
   )
   COMMENT = 'DEMO: Semantic view for Snowflake Intelligence';
 
