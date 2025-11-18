@@ -35,16 +35,12 @@ All checks passed!
 2. Log in with demo credentials (use ACCOUNTADMIN role)
 3. Open Snowsight interface (modern UI)
 
-### 3. Configure Intelligence Agent
+### 3. Verify Intelligence Agent
 
-**Path:** AI & ML > Snowflake Intelligence
-
-1. Click on **Marathon Analytics** agent (or create if first time)
-2. Verify semantic view is connected:
-   - Database: `SNOWFLAKE_EXAMPLE`
-   - Schema: `ANALYTICS`
-   - Semantic View: `MARATHON_INSIGHTS`
-3. Save configuration
+- AI & ML → Snowflake Intelligence
+- Confirm **Marathon Analytics** appears in curated list (auto-created by script)
+- Click the agent → **Settings** → confirm semantic view = `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS`
+- Optional: tweak sample questions/instructions (see `docs/06-INTELLIGENCE-AGENT.md`) then re-run agent script
 
 ### 4. Test Query
 

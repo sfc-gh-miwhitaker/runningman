@@ -76,17 +76,9 @@ SELECT SNOWFLAKE.CORTEX.SENTIMENT('This is a great demo!') AS test_sentiment;
    - **Option B:** Press `Cmd+Shift+Enter` (Mac) or `Ctrl+Shift+Enter` (Windows)
 
 5. **Wait for completion:**
-   - Progress messages will appear in the results pane
-   - Data generation takes ~5-10 minutes
-   - You'll see step completion messages:
-     ```
-     ✓ Step 1/6 Complete: Database and warehouse created
-     ✓ Step 2/6 Complete: Generated 360,000+ rows...
-     ✓ Step 3/6 Complete: Staging views created
-     ✓ Step 4/6 Complete: Analytics tables created
-     ✓ Step 5/6 Complete: Cortex AI enrichment applied
-     ✓ Step 6/6 Complete: Semantic view created
-     ```
+   - Progress messages appear in the results pane
+   - Data generation takes ~10 minutes
+   - You should see nine major milestones (git setup → data → semantic view → agent)
 
 6. **Verify deployment:**
    - Final message should show "DEPLOYMENT COMPLETE!"
@@ -94,44 +86,36 @@ SELECT SNOWFLAKE.CORTEX.SENTIMENT('This is a great demo!') AS test_sentiment;
 
 **What Was Created:**
 - ✅ Database: `SNOWFLAKE_EXAMPLE`
-- ✅ Warehouse: `SFE_MARATHON_WH` (XSMALL, auto-suspend)
+- ✅ Schemas: `GIT_REPOS`, `RAW_INGESTION`, `STAGING`, `ANALYTICS`
+- ✅ Warehouse: `SFE_MARATHON_WH`
 - ✅ Role: `SFE_MARATHON_ROLE`
-- ✅ 12 marathon events
-- ✅ 50,000 synthetic participants
-- ✅ 300,000+ race results
-- ✅ 10,000 social media posts with sentiment analysis
+- ✅ API Integration + Git repository stage
+- ✅ Synthetic data: 12 marathons, 50K participants, 300K+ race results, 10K+ social posts
 - ✅ Semantic view: `MARATHON_INSIGHTS`
+- ✅ Snowflake Intelligence agent: `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT`
 
-### Step 4: Configure Snowflake Intelligence (3 minutes)
+### Step 4: Verify Snowflake Intelligence Agent (3 minutes)
 
-**⚠️ IMPORTANT:** This step is required to use natural language queries.
+The deployment script now provisions the agent for you. This step is to confirm (and optionally customize) the experience.
 
-1. **Navigate to Intelligence:**
-   - In Snowsight, click **AI & ML** in left sidebar
-   - Click **Snowflake Intelligence**
+1. **Check via SQL (optional):**
+   ```sql
+   SHOW AGENTS LIKE 'MARATHON_AGENT';
+   DESCRIBE AGENT SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT;
+   ```
 
-2. **Create an Agent:**
-   - Click **+ Create Agent** (or use default agent)
-   - **Name:** `Marathon Analytics`
-   - **Description:** `Conversational analytics for marathon event management`
+2. **Open Snowsight Intelligence:**
+   - AI & ML → Snowflake Intelligence
+   - The curated list should include **Marathon Analytics**
 
-3. **Connect the Semantic View:**
-   - In agent configuration, click **Add Data Source**
-   - Navigate to:
-     - Database: `SNOWFLAKE_EXAMPLE`
-     - Schema: `ANALYTICS`
-     - View: `MARATHON_INSIGHTS`
-   - Click **Add**
+3. **Run a smoke test:**
+   - Ask: `How many marathons are in the system?`
+   - Expect a quick response (6 marathons)
 
-4. **Save Configuration:**
-   - Click **Save** or **Create Agent**
-
-5. **Test the Agent:**
-   - In the Intelligence chat interface, type:
-     ```
-     Show me the top 10 marathons by number of participants
-     ```
-   - You should see a response with data!
+4. **Customize if needed:**
+   - Update YAML in `sql/05_agent_setup/01_create_agent.sql`
+   - Re-run `sql/00_deploy_all.sql`
+   - See `docs/06-INTELLIGENCE-AGENT.md` for detailed guidance
 
 ---
 
@@ -172,6 +156,10 @@ ORDER BY avg_score DESC;
 -- 5. Check semantic view
 SELECT COUNT(*) AS total_rows
 FROM SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS;
+
+-- 6. Verify agent
+SHOW AGENTS LIKE 'MARATHON_AGENT';
+DESCRIBE AGENT SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT;
 ```
 
 **Expected Results:**
@@ -181,6 +169,7 @@ FROM SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS;
 - ✅ 10,000+ social media posts
 - ✅ Sentiment distribution: Positive, Neutral, Negative
 - ✅ Semantic view has rows (300K+)
+- ✅ Agent shows in `SHOW AGENTS` with Schema = ANALYTICS
 
 ---
 

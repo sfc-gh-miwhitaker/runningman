@@ -4,7 +4,7 @@
 
 **Demo Project - NOT FOR PRODUCTION USE**
 
-This is a reference implementation showcasing Snowflake Intelligence and Cortex AI capabilities for marathon analytics. Built for global marathon event management and analytics use cases.
+This is a flagship reference implementation that MUST set the bar for Snowflake Intelligence best practices—fully scripted deployment, governed semantic models, and a turnkey demo experience for global marathon analytics.
 
 **Database:** All artifacts created in `SNOWFLAKE_EXAMPLE` database  
 **Isolation:** Uses `SFE_` prefix for account-level objects
@@ -27,10 +27,10 @@ This is a reference implementation showcasing Snowflake Intelligence and Cortex 
    - Wait for data generation (~10 min)
    - **Zero configuration required!**
 
-2. **Configure Intelligence Agent** (3 min)
-   - AI & ML → Snowflake Intelligence
-   - Create agent: "Marathon Analytics"
-   - Connect view: `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS`
+2. **Verify Intelligence Agent** (2 min)
+   - Script now auto-creates agent `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT`
+   - Confirm via Snowsight → AI & ML → Snowflake Intelligence (should see **Marathon Analytics**)
+   - (Optional) Customize instructions/model via `docs/06-INTELLIGENCE-AGENT.md`
 
 3. **Run Demo** - `docs/02-DEMO-SCRIPT.md` (30-45 min)
    - Follow presenter script
@@ -45,6 +45,7 @@ The `00_deploy_all.sql` script:
 2. Creates git repository stage (clones your repo)
 3. Fetches latest code from remote
 4. Executes each SQL file using `EXECUTE IMMEDIATE FROM @repo/branches/main/sql/...`
+5. Builds semantic view and provisions the Snowflake Intelligence agent
 
 **Safe to re-run!** Uses `OR REPLACE` for idempotency.
 
@@ -69,6 +70,7 @@ For environments without git integration:
 - **Semantic Views (DDL):** Native Snowflake semantic layer (Public Preview)
 - **Cortex AI Functions:** SENTIMENT, SUMMARIZE for text analysis
 - **Native Data Generation:** 100% Snowflake-native synthetic data using GENERATOR()
+- **Agent Governance:** Documented agent creation + REST automation patterns
 
 ---
 
@@ -82,13 +84,15 @@ runningman/
 │   ├── 02-DEMO-SCRIPT.md       # Complete presenter script
 │   ├── 03-DEMO-WALKTHROUGH.md  # Step-by-step guide
 │   ├── 04-SAMPLE-QUESTIONS.md  # Natural language queries
-│   └── 05-TECHNICAL-REFERENCE.md # Architecture details
+│   ├── 05-TECHNICAL-REFERENCE.md # Architecture details
+│   └── 06-INTELLIGENCE-AGENT.md # Agent specification & customization
 ├── sql/                         # SQL scripts
 │   ├── 00_deploy_all.sql       # 🚀 MASTER SCRIPT - Copy-paste into Snowsight!
 │   ├── 01_setup/               # Database, warehouse, schema creation
 │   ├── 02_data_generation/     # Synthetic data (50K+ rows)
 │   ├── 03_transformations/     # Staging & analytics layers
 │   ├── 04_semantic_layer/      # Semantic views (DDL)
+│   ├── 05_agent_setup/         # Snowflake Intelligence agent creation
 │   └── 99_cleanup/             # Complete teardown
 └── diagrams/                    # Architecture diagrams (Mermaid)
     ├── data-flow.md
@@ -112,6 +116,7 @@ runningman/
 | `STAGING` | Cleaned data | Staging views for transformation |
 | `ANALYTICS` | Business layer | Fact tables (FCT_MARATHON_PERFORMANCE, FCT_SPONSOR_ROI, FCT_FAN_ENGAGEMENT) |
 | `ANALYTICS` | Semantic layer | Semantic view: MARATHON_INSIGHTS |
+| `ANALYTICS` | Intelligence | Agent: MARATHON_AGENT (added to Snowflake Intelligence object) |
 
 **Total synthetic data:** 50,000+ participants, 300,000+ race results, 3 years historical data
 

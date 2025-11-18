@@ -9,7 +9,7 @@
 ## Pre-Demo Checklist
 
 - [ ] Demo environment deployed via `sql/00_deploy_all.sql` in Snowsight
-- [ ] Snowflake Intelligence configured with MARATHON_INSIGHTS semantic view
+- [ ] Marathon Analytics agent verified (auto-provisioned) in Snowflake Intelligence
 - [ ] Snowsight open in browser, logged into demo account
 - [ ] Intelligence chat interface ready
 - [ ] This script open for reference

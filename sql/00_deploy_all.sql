@@ -137,12 +137,18 @@ EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branche
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/04_semantic_layer/01_create_semantic_view.sql';
 
 /*******************************************************************************
+ * STEP 9: SNOWFLAKE INTELLIGENCE AGENT - Marathon Analytics
+ ******************************************************************************/
+
+EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/05_agent_setup/01_create_agent.sql';
+
+/*******************************************************************************
  * DEPLOYMENT COMPLETE
  * 
  * NEXT STEPS:
- * 1. AI & ML > Snowflake Intelligence > Create agent "Marathon Analytics"
- * 2. Connect: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS
- * 3. Try: "Show me average finish times by marathon"
+ * 1. AI & ML > Snowflake Intelligence > Open agent "Marathon Analytics"
+ * 2. Ask: "Show me fan sentiment across the six majors this year"
+ * 3. Explore SQL + verification shields for transparency
  * 
  * OBJECTS CREATED:
  *   - Database: SNOWFLAKE_EXAMPLE
@@ -151,6 +157,7 @@ EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branche
  *   - API Integration: RUNNINGMAN_GIT_INTEGRATION
  *   - Warehouse: SFE_MARATHON_WH
  *   - Role: SFE_MARATHON_ROLE
+ *   - Agent: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT
  * 
  * CLEANUP:
  *   Run: sql/99_cleanup/teardown_all.sql (removes demo data/schemas)
