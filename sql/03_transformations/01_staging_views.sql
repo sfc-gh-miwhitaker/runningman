@@ -68,6 +68,22 @@ SELECT
     engagement_count
 FROM RAW_INGESTION.SOCIAL_MEDIA_POSTS;
 
+-- Staging view for broadcast metrics
+CREATE OR REPLACE VIEW STG_BROADCAST_METRICS AS
+SELECT
+    b.broadcast_id,
+    b.marathon_id,
+    m.marathon_name,
+    b.broadcast_year,
+    b.total_viewership,
+    b.avg_concurrent_viewers,
+    b.broadcast_duration_minutes,
+    ARRAY_SIZE(b.broadcast_regions) AS broadcast_region_count,
+    b.broadcast_regions
+FROM RAW_INGESTION.BROADCAST_METRICS b
+JOIN RAW_INGESTION.MARATHONS m
+  ON b.marathon_id = m.marathon_id;
+
 /*******************************************************************************
  * END OF SCRIPT
  ******************************************************************************/

@@ -49,6 +49,8 @@ CREATE OR REPLACE AGENT MARATHON_AGENT
         answer: "I'll review performance metrics for Boston Marathon across multiple years."
       - question: "Which city delivered the best broadcast reach per dollar?"
         answer: "I'll combine broadcast impressions and sponsor spend to determine efficiency."
+      - question: "Which marathon delivered the highest fan sentiment and TV viewership this year?"
+        answer: "I'll compare aggregated sentiment with broadcast reach to highlight the top event."
 
   tools:
     - tool_spec:

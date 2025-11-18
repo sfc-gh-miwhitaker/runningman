@@ -64,12 +64,14 @@ For environments without git integration:
 - **Sponsorship ROI:** Measure sponsor exposure and engagement across all 6 major marathons
 - **Performance Insights:** Athlete performance analysis and predictive modeling
 - **Real-time Analytics:** Natural language queries for instant business insights
+- **Media Reach Intelligence:** Compare broadcast viewership and regional coverage for every event
 
 ### Technical Capabilities
 - **Snowflake Intelligence:** Natural language queries via Cortex Analyst
 - **Semantic Views (DDL):** Native Snowflake semantic layer (Public Preview)
 - **Cortex AI Functions:** SENTIMENT, SUMMARIZE for text analysis
 - **Native Data Generation:** 100% Snowflake-native synthetic data using GENERATOR()
+- **Fan & Broadcast Facts:** Aggregated sentiment (FCT_FAN_ENGAGEMENT) and media reach (FCT_BROADCAST_REACH) exposed directly in the semantic view
 - **Agent Governance:** Documented agent creation + REST automation patterns
 
 ---
@@ -114,11 +116,11 @@ runningman/
 |--------|---------|-------------|
 | `RAW_INGESTION` | Landing zone | 6 raw tables (marathons, participants, results, sponsors, social media, broadcast) |
 | `STAGING` | Cleaned data | Staging views for transformation |
-| `ANALYTICS` | Business layer | Fact tables (FCT_MARATHON_PERFORMANCE, FCT_SPONSOR_ROI, FCT_FAN_ENGAGEMENT) |
+| `ANALYTICS` | Business layer | Fact tables (FCT_MARATHON_PERFORMANCE, FCT_SPONSOR_ROI, FCT_FAN_ENGAGEMENT, FCT_BROADCAST_REACH) + ENRICHED_SOCIAL_MEDIA |
 | `ANALYTICS` | Semantic layer | Semantic view: MARATHON_INSIGHTS |
 | `ANALYTICS` | Intelligence | Agent: MARATHON_AGENT (added to Snowflake Intelligence object) |
 
-**Total synthetic data:** 50,000+ participants, 300,000+ race results, 3 years historical data
+**Total synthetic data:** 50,000+ participants, 300,000+ race results, 10,000+ social posts, 3 years of broadcast and sponsorship data
 
 ---
 
@@ -138,6 +140,11 @@ Compare sponsor performance and media exposure across marathons.
 Runner statistics, qualification rates, and trend analysis.
 
 **Sample Question:** *"What's the average finish time trend for Boston Marathon over 3 years?"*
+
+### Scenario 4: Media Reach & Fan Sentiment (10 min)
+Blend broadcast reach with Cortex-powered sentiment to highlight where brand impact is strongest.
+
+**Sample Question:** *"Which marathon delivered the highest fan sentiment and total TV viewership in 2025?"*
 
 See `docs/04-SAMPLE-QUESTIONS.md` for 30+ additional queries.
 

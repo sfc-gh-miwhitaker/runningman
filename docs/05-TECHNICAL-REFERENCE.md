@@ -348,6 +348,29 @@ metrics: [
 
 This allows: *"What's the title sponsor's cost per minute?"*
 
+#### Principle 4: Link Every Fact Back to a Single Grain
+
+- `fan_engagement`, `broadcast`, `sponsor_roi`, and `social` all reference `performance(marathon_id)` to keep join paths predictable for Snowflake Intelligence.
+- Aggregated fan sentiment (per marathon/year) lives in `FCT_FAN_ENGAGEMENT`, while `ENRICHED_SOCIAL_MEDIA` still powers drill-downs.
+- Broadcast reach data flows from `FCT_BROADCAST_REACH`, exposing viewership metrics and regional coverage.
+
+### Logical Tables & Metrics
+
+- **performance:** `FCT_MARATHON_PERFORMANCE`
+- **sponsor_roi:** `FCT_SPONSOR_ROI`
+- **fan_engagement:** `FCT_FAN_ENGAGEMENT`
+- **broadcast:** `FCT_BROADCAST_REACH`
+- **social:** `ENRICHED_SOCIAL_MEDIA` (detail-level sentiment posts)
+
+Key metric groups exposed to Snowflake Intelligence:
+
+| Category | Example Metrics |
+|----------|-----------------|
+| Performance | total_participants, avg_finish_time_minutes, boston_qualifiers |
+| Sponsorship | total_investment, media_exposure_minutes, cost_per_minute |
+| Fan Engagement | total_posts, avg_sentiment_score, positive_post_pct, avg_engagement_per_post |
+| Broadcast | total_viewership, avg_concurrent_viewers, broadcast_duration_minutes, broadcast_region_count |
+
 #### Principle 4: Use Wide Tables Over Long Tables
 
 **Bad (Long format):**

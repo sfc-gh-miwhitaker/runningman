@@ -34,13 +34,24 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
     sponsor_roi AS FCT_SPONSOR_ROI
       PRIMARY KEY (sponsor_id, marathon_id, contract_year)
       WITH SYNONYMS = ('sponsor performance', 'sponsorship'),
+
+    fan_engagement AS FCT_FAN_ENGAGEMENT
+      PRIMARY KEY (marathon_id, sentiment_year)
+      WITH SYNONYMS = ('fan sentiment', 'social engagement metrics'),
+
+    broadcast AS FCT_BROADCAST_REACH
+      PRIMARY KEY (marathon_id, broadcast_year)
+      WITH SYNONYMS = ('broadcast metrics', 'media reach'),
     
     social AS ENRICHED_SOCIAL_MEDIA
       PRIMARY KEY (post_id)
       WITH SYNONYMS = ('fan engagement', 'social media', 'sentiment')
   )
   RELATIONSHIPS (
-    sponsor_roi(marathon_id) REFERENCES performance(marathon_id)
+    sponsor_roi(marathon_id) REFERENCES performance(marathon_id),
+    fan_engagement(marathon_id) REFERENCES performance(marathon_id),
+    broadcast(marathon_id) REFERENCES performance(marathon_id),
+    social(marathon_id) REFERENCES performance(marathon_id)
   )
   DIMENSIONS (
     -- Marathon attributes (from FCT_MARATHON_PERFORMANCE)
@@ -68,7 +79,21 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
     social.platform AS social.platform
       WITH SYNONYMS = ('social platform', 'social network'),
     social.sentiment_category AS social.sentiment_category
-      WITH SYNONYMS = ('sentiment', 'fan sentiment')
+      WITH SYNONYMS = ('sentiment', 'fan sentiment'),
+    social.post_date AS social.post_date
+      WITH SYNONYMS = ('post date', 'fan post date'),
+
+    -- Fan engagement dimensions (aggregated)
+    fan_engagement.sentiment_year AS fan_engagement.sentiment_year
+      WITH SYNONYMS = ('sentiment year', 'fan year'),
+    fan_engagement.top_platform_by_engagement AS fan_engagement.top_platform_by_engagement
+      WITH SYNONYMS = ('top platform', 'most engaging platform'),
+
+    -- Broadcast dimensions
+    broadcast.broadcast_year AS broadcast.broadcast_year
+      WITH SYNONYMS = ('broadcast year', 'telecast year'),
+    broadcast.broadcast_region_count AS broadcast.broadcast_region_count
+      WITH SYNONYMS = ('region count', 'market reach')
   )
   METRICS (
     -- Performance metrics
@@ -97,13 +122,33 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
     sponsor_roi.cost_efficiency AS AVG(sponsor_roi.cost_per_minute)
       WITH SYNONYMS = ('cost per minute', 'efficiency'),
     
-    -- Social media metrics
-    social.post_count AS COUNT(social.post_id)
+    -- Fan engagement metrics (aggregated)
+    fan_engagement.total_posts AS SUM(fan_engagement.total_posts)
       WITH SYNONYMS = ('social media posts', 'post count', 'number of posts'),
-    social.avg_sentiment AS AVG(social.sentiment_score)
+    fan_engagement.total_engagement AS SUM(fan_engagement.total_engagement)
+      WITH SYNONYMS = ('engagement', 'social engagement', 'total interactions'),
+    fan_engagement.avg_sentiment AS AVG(fan_engagement.avg_sentiment_score)
       WITH SYNONYMS = ('sentiment score', 'fan sentiment', 'average sentiment'),
-    social.total_engagement AS SUM(social.engagement_count)
-      WITH SYNONYMS = ('engagement', 'social engagement', 'total interactions')
+    fan_engagement.positive_posts AS SUM(fan_engagement.positive_posts)
+      WITH SYNONYMS = ('positive posts', 'positive mentions'),
+    fan_engagement.negative_posts AS SUM(fan_engagement.negative_posts)
+      WITH SYNONYMS = ('negative posts', 'negative mentions'),
+    fan_engagement.positive_post_pct AS AVG(fan_engagement.positive_post_pct)
+      WITH SYNONYMS = ('positive sentiment percent'),
+    fan_engagement.negative_post_pct AS AVG(fan_engagement.negative_post_pct)
+      WITH SYNONYMS = ('negative sentiment percent'),
+    fan_engagement.avg_engagement_per_post AS AVG(fan_engagement.avg_engagement_per_post)
+      WITH SYNONYMS = ('avg engagement per post', 'average interactions per post'),
+    
+    -- Broadcast metrics
+    broadcast.total_viewership AS SUM(broadcast.total_viewership)
+      WITH SYNONYMS = ('total viewers', 'viewership'),
+    broadcast.avg_concurrent_viewers AS AVG(broadcast.avg_concurrent_viewers)
+      WITH SYNONYMS = ('avg concurrent viewers', 'live viewers'),
+    broadcast.broadcast_duration_minutes AS AVG(broadcast.broadcast_duration_minutes)
+      WITH SYNONYMS = ('broadcast duration', 'air time'),
+    broadcast.broadcast_region_count AS AVG(broadcast.broadcast_region_count)
+      WITH SYNONYMS = ('regions reached', 'market count')
   )
   COMMENT = 'DEMO: Semantic view for Snowflake Intelligence - Marathon Analytics';
 

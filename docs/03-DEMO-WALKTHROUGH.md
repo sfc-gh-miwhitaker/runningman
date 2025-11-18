@@ -309,6 +309,49 @@ If this works, you're ready to demo!
 
 ---
 
+### Scenario 4: Media Reach & Fan Sentiment (10 min)
+
+#### Query 13: Highest Viewership
+
+**Type:** `Which marathon delivered the highest total broadcast viewership in 2025?`
+
+**When results appear:**
+
+1. **Call out the winner:**
+   - "Chicago drew 9.8M viewers—most-watched broadcast."
+   - "Use this to justify premium sponsorship slots."
+
+2. **Highlight data lineage:**
+   - "Numbers come from `FCT_BROADCAST_REACH`, fed by raw broadcast metrics."
+
+#### Query 14: Sentiment vs Viewership
+
+**Type:** `Compare fan sentiment and total viewership for each marathon this year`
+
+**When results appear:**
+
+1. **Cross-insight storytelling:**
+   - "London tops sentiment (0.72) and sits third in viewership."
+   - "Berlin has strong sentiment but lower reach—opportunity to expand broadcast partners."
+
+2. **Tie back to sponsors:**
+   - "Shows where fans are happiest and where eyeballs are highest."
+
+#### Query 15: Platform Effectiveness
+
+**Type:** `What is the top social platform by engagement for each marathon?`
+
+**When results appear:**
+
+1. **Use `top_platform_by_engagement`:**
+   - "Boston: Instagram leads engagement."
+   - "Tokyo: Twitter dominates due to time zone."
+
+2. **Actionable takeaway:**
+   - "Helps marketing teams prioritize platform-specific creative."
+
+---
+
 ### Transparency Demo (5 min)
 
 #### Show SQL Generation

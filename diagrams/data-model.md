@@ -1,7 +1,7 @@
 # Data Model - Global Marathon Analytics Demo
 
 **Author:** Michael Whitaker  
-**Last Updated:** 2024-01-18  
+**Last Updated:** 2025-11-18  
 **Status:** Reference Implementation
 
 ![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
@@ -31,6 +31,7 @@ graph TB
         STG_P[STG_PARTICIPANTS<br/>View: Standardized names]
         STG_S[STG_SPONSORS<br/>View: Validated tiers]
         STG_SM[STG_SOCIAL_MEDIA<br/>View: Text cleanup]
+        STG_BM[STG_BROADCAST_METRICS<br/>View: Flattened regions]
     end
 
     subgraph "ANALYTICS Schema - Dimensional Model"
@@ -46,6 +47,10 @@ graph TB
             FCT_MP[FCT_MARATHON_PERFORMANCE<br/>Per-marathon aggregates<br/>- total_participants<br/>- avg_finish_time_minutes<br/>- fastest_time_minutes<br/>- boston_qualifiers<br/>- qualification_rate_pct<br/>FK: marathon_id]
             
             FCT_SR[FCT_SPONSOR_ROI<br/>Sponsor investment metrics<br/>- contract_value<br/>- activation_spend<br/>- total_investment<br/>- media_exposure_minutes<br/>- cost_per_minute<br/>FK: sponsor_id, marathon_id]
+
+            FCT_FE[FCT_FAN_ENGAGEMENT<br/>Sentiment by marathon/year<br/>- total_posts<br/>- avg_sentiment_score<br/>- total_engagement<br/>- positive_post_pct<br/>FK: marathon_id]
+
+            FCT_BR[FCT_BROADCAST_REACH<br/>Media reach by marathon/year<br/>- total_viewership<br/>- avg_concurrent_viewers<br/>- broadcast_duration_minutes<br/>- broadcast_region_count<br/>FK: marathon_id]
         end
         
         subgraph "Enriched - Cortex AI"
@@ -66,6 +71,7 @@ graph TB
     P --> STG_P
     SP --> STG_S
     SM --> STG_SM
+    BM --> STG_BM
 
     %% Staging to Analytics - Dimensions
     STG_M --> DIM_M
@@ -79,6 +85,8 @@ graph TB
     SP --> FCT_SR
     SC --> FCT_SR
     M --> FCT_SR
+    ENRICH --> FCT_FE
+    STG_BM --> FCT_BR
 
     %% Raw to Enriched
     SM --> ENRICH
@@ -90,6 +98,8 @@ graph TB
     DIM_S --> SEM
     FCT_MP --> SEM
     FCT_SR --> SEM
+    FCT_FE --> SEM
+    FCT_BR --> SEM
     ENRICH --> SEM
 
     %% Semantic View to Intelligence
@@ -107,6 +117,7 @@ graph TB
     style STG_P fill:#fff4e6
     style STG_S fill:#fff4e6
     style STG_SM fill:#fff4e6
+    style STG_BM fill:#fff4e6
     
     style DIM_M fill:#e8f5e9
     style DIM_P fill:#e8f5e9
@@ -114,6 +125,8 @@ graph TB
     
     style FCT_MP fill:#fff3e0
     style FCT_SR fill:#fff3e0
+    style FCT_FE fill:#fff3e0
+    style FCT_BR fill:#fff3e0
     
     style ENRICH fill:#f3e5f5
     
@@ -147,6 +160,7 @@ graph TB
 | `STG_PARTICIPANTS` | `PARTICIPANTS` | Standardize names, validate ages |
 | `STG_SPONSORS` | `SPONSORS` | Validate sponsorship tiers |
 | `STG_SOCIAL_MEDIA` | `SOCIAL_MEDIA_POSTS` | Text cleanup (trim, remove extra spaces) |
+| `STG_BROADCAST_METRICS` | `BROADCAST_METRICS` | Expand VARIANT arrays, calculate region counts |
 
 **Pattern:** Views (no data copying) with basic cleaning logic using SQL functions.
 
@@ -168,26 +182,28 @@ graph TB
 |------------|-------|-------------|---------------|
 | `FCT_MARATHON_PERFORMANCE` | Per marathon per year | `total_participants`, `avg_finish_time_minutes`, `fastest_time_minutes`, `boston_qualifiers`, `qualification_rate_pct` | `MARATHONS` + `RACE_RESULTS` |
 | `FCT_SPONSOR_ROI` | Per sponsor per marathon per year | `contract_value`, `activation_spend`, `total_investment`, `media_exposure_minutes`, `cost_per_minute` | `SPONSORS` + `SPONSOR_CONTRACTS` + `MARATHONS` |
+| `FCT_FAN_ENGAGEMENT` | Per marathon per sentiment year | `total_posts`, `avg_sentiment_score`, `positive_post_pct`, `total_engagement`, `avg_engagement_per_post`, `top_platform_by_engagement` | `ENRICHED_SOCIAL_MEDIA` |
+| `FCT_BROADCAST_REACH` | Per marathon per broadcast year | `total_viewership`, `avg_concurrent_viewers`, `broadcast_duration_minutes`, `broadcast_region_count` | `BROADCAST_METRICS` + `MARATHONS` |
 
 **Pattern:** Pre-aggregated facts using `GROUP BY` for fast query performance. No row-level detail.
 
 ### Layer 5: ANALYTICS - Enriched (Purple)
-**Purpose:** AI-enhanced data using Snowflake Cortex
+**Purpose:** AI-enhanced data using Snowflake Cortex and downstream aggregates
 
-| Table | Enrichment | Cortex Function | Output |
-|-------|------------|-----------------|--------|
-| `ENRICHED_SOCIAL_MEDIA` | Sentiment Analysis | `SNOWFLAKE.CORTEX.SENTIMENT()` | `sentiment_score` (-1 to 1), `sentiment_category` (Positive/Neutral/Negative) |
+| Table | Enrichment | Cortex Function | Output / Consumers |
+|-------|------------|-----------------|--------------------|
+| `ENRICHED_SOCIAL_MEDIA` | Sentiment Analysis | `SNOWFLAKE.CORTEX.SENTIMENT()` | `sentiment_score`, `sentiment_category`, feeds `FCT_FAN_ENGAGEMENT` |
 
-**Pattern:** Original data + AI-generated columns. Uses Cortex AI functions for NLP analysis.
+**Pattern:** Original data + AI-generated columns. Aggregated into `FCT_FAN_ENGAGEMENT` for semantic view performance while retaining post-level drill-down.
 
 ### Layer 6: Semantic View (Light Blue)
 **Purpose:** Business-friendly metadata layer for natural language queries
 
 **Structure:**
-- **Tables (6):** Maps logical names to physical tables
-- **Relationships (4):** Defines foreign key relationships
-- **Dimensions (15):** Business attributes for filtering/grouping
-- **Metrics (11):** Pre-defined calculations with synonyms
+- **Tables (5):** Performance, sponsor ROI, fan engagement, broadcast reach, social detail
+- **Relationships (4):** Every fact references performance via `marathon_id`
+- **Dimensions (20):** Marathon, sponsor, sentiment year, platforms, broadcast regions
+- **Metrics (23):** Performance, sponsorship, fan sentiment, and broadcast reach
 
 **Key Feature:** `WITH SYNONYMS` allows natural language:
 - "event name" → `marathons.marathon_name`
@@ -224,13 +240,16 @@ Result: "4 hours 23 minutes"
 ### From Raw Data to Insights
 ```
 Raw Source → Staging View → Dimension/Fact → Semantic View → Natural Language
-────────────────────────────────────────────────────────────────────────────
+─────────────────────────────────────────────────────────────────────────────
 MARATHONS → STG_MARATHONS → DIM_MARATHONS ──┐
                                               ├→ MARATHON_INSIGHTS → "Show me marathons in the USA"
 RACE_RESULTS ─────────────→ FCT_MARATHON_PERF─┘
 
-SOCIAL_MEDIA_POSTS → STG_SOCIAL_MEDIA → ENRICHED_SOCIAL_MEDIA → MARATHON_INSIGHTS → "What's the sentiment for NYC?"
-                                         (+ Cortex Sentiment)
+SOCIAL_MEDIA_POSTS → STG_SOCIAL_MEDIA → ENRICHED_SOCIAL_MEDIA → FCT_FAN_ENGAGEMENT → MARATHON_INSIGHTS
+                                               ↑
+                                               └─ Detailed drill-down still available (post-level sentiment)
+
+BROADCAST_METRICS → STG_BROADCAST_METRICS → FCT_BROADCAST_REACH → MARATHON_INSIGHTS → "Which marathon drove the highest viewership?"
 ```
 
 ## Relationships in Semantic View
@@ -243,11 +262,15 @@ graph LR
     
     FCT_MP[FCT_MARATHON_PERFORMANCE<br/>marathon_id]
     FCT_SR[FCT_SPONSOR_ROI<br/>sponsor_id, marathon_id]
+    FCT_FE[FCT_FAN_ENGAGEMENT<br/>marathon_id]
+    FCT_BR[FCT_BROADCAST_REACH<br/>marathon_id]
     ENRICH[ENRICHED_SOCIAL_MEDIA<br/>marathon_id]
     
     FCT_MP -->|marathon_id| DIM_M
     FCT_SR -->|marathon_id| DIM_M
     FCT_SR -->|sponsor_id| DIM_S
+    FCT_FE -->|marathon_id| DIM_M
+    FCT_BR -->|marathon_id| DIM_M
     ENRICH -->|marathon_id| DIM_M
     
     style DIM_M fill:#e8f5e9
@@ -255,6 +278,8 @@ graph LR
     style DIM_S fill:#e8f5e9
     style FCT_MP fill:#fff3e0
     style FCT_SR fill:#fff3e0
+    style FCT_FE fill:#fff3e0
+    style FCT_BR fill:#fff3e0
     style ENRICH fill:#f3e5f5
 ```
 
@@ -305,12 +330,12 @@ GROUP BY m.marathon_name;
 | Layer | Objects | Purpose |
 |-------|---------|---------|
 | Raw Ingestion | 7 tables | Source data storage |
-| Staging | 4 views | Data cleaning |
+| Staging | 5 views | Data cleaning |
 | Analytics - Dimensions | 3 tables | Business attributes |
-| Analytics - Facts | 2 tables | Aggregated metrics |
+| Analytics - Facts | 4 tables | Aggregated metrics |
 | Analytics - Enriched | 1 table | AI-enhanced data |
 | Semantic Layer | 1 view | Natural language interface |
-| **Total** | **18 objects** | Complete data pipeline |
+| **Total** | **21 objects** | Complete data pipeline |
 
 ## Change History
 
@@ -318,7 +343,7 @@ See `.cursor/DIAGRAM_CHANGELOG.md` for version history.
 
 ---
 
-**Last Updated:** 2024-01-18  
+**Last Updated:** 2025-11-18  
 **Maintained By:** Michael Whitaker  
 **Related Diagrams:** `data-flow.md`, `network-flow.md`, `auth-flow.md`
 

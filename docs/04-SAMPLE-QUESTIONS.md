@@ -58,6 +58,23 @@ This document contains tested natural language queries you can use with Snowflak
 
 **Q8:** `What's the average sentiment by marathon, sorted from highest to lowest?`
 - **Purpose:** Aggregation with sorting
+## Broadcast Reach & Media Impact
+
+**Q31:** `Which marathon delivered the highest total broadcast viewership this year?`
+- **Purpose:** Highlights `FCT_BROADCAST_REACH` totals
+- **Expected Answer:** Marathon name with total viewers
+- **Complexity:** ⭐⭐ Medium
+
+**Q32:** `Show average concurrent viewers by marathon over the last three years`
+- **Purpose:** Trend comparison across events
+- **Expected Answer:** Table or chart with per-marathon averages
+- **Complexity:** ⭐⭐ Medium
+
+**Q33:** `Compare fan sentiment and broadcast reach for each marathon in 2025`
+- **Purpose:** Demonstrates combining fan engagement and broadcast facts
+- **Expected Answer:** Table with sentiment + viewership metrics per marathon
+- **Complexity:** ⭐⭐⭐ Advanced
+
 - **Expected Answer:** Ranked list of marathons by sentiment
 - **Complexity:** ⭐⭐ Medium
 
