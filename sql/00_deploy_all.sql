@@ -71,21 +71,37 @@ CREATE OR REPLACE GIT REPOSITORY RUNNINGMAN_GIT_REPO
 ALTER GIT REPOSITORY SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO FETCH;
 
 /*******************************************************************************
- * STEP 2: SETUP - Database, Schemas, Warehouse, Role
+ * STEP 2: CREATE WAREHOUSE FIRST
  * 
- * First create the warehouse so all subsequent operations have compute available.
+ * Create and set warehouse before executing any scripts via EXECUTE IMMEDIATE FROM.
+ * Even DDL-only scripts require a warehouse context in the session.
+ ******************************************************************************/
+
+-- Create warehouse inline (before EXECUTE IMMEDIATE FROM)
+CREATE WAREHOUSE IF NOT EXISTS SFE_MARATHON_WH
+  WAREHOUSE_SIZE = 'XSMALL'
+  AUTO_SUSPEND = 60
+  AUTO_RESUME = TRUE
+  INITIALLY_SUSPENDED = FALSE
+  COMMENT = 'DEMO: Compute for marathon analytics';
+
+-- Grant usage to ACCOUNTADMIN
+GRANT USAGE ON WAREHOUSE SFE_MARATHON_WH TO ROLE ACCOUNTADMIN;
+
+-- Set warehouse context for all operations
+USE WAREHOUSE SFE_MARATHON_WH;
+
+/*******************************************************************************
+ * STEP 3: SETUP - Database, Schemas, Role
+ * 
  * NOTE: Using fully qualified stage paths (@database.schema.stage) to ensure
  * correct resolution even if child scripts change the database/schema context.
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/01_setup/01_create_database.sql';
-EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/01_setup/02_create_warehouse.sql';
-
--- Set warehouse context for all subsequent data operations
-USE WAREHOUSE SFE_MARATHON_WH;
 
 /*******************************************************************************
- * STEP 3: DATA GENERATION - Synthetic Marathon Data (~360k rows)
+ * STEP 4: DATA GENERATION - Synthetic Marathon Data (~360k rows)
  * This step takes 2-3 minutes
  ******************************************************************************/
 
@@ -97,25 +113,25 @@ EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branche
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/02_data_generation/06_generate_broadcast_data.sql';
 
 /*******************************************************************************
- * STEP 4: STAGING LAYER - Cleaned Views
+ * STEP 5: STAGING LAYER - Cleaned Views
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/01_staging_views.sql';
 
 /*******************************************************************************
- * STEP 5: ANALYTICS LAYER - Denormalized Tables  
+ * STEP 6: ANALYTICS LAYER - Denormalized Tables  
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/02_analytics_tables.sql';
 
 /*******************************************************************************
- * STEP 6: CORTEX AI ENRICHMENT - Sentiment Analysis
+ * STEP 7: CORTEX AI ENRICHMENT - Sentiment Analysis
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/03_transformations/03_cortex_enrichment.sql';
 
 /*******************************************************************************
- * STEP 7: SEMANTIC VIEW - Snowflake Intelligence
+ * STEP 8: SEMANTIC VIEW - Snowflake Intelligence
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/04_semantic_layer/01_create_semantic_view.sql';
