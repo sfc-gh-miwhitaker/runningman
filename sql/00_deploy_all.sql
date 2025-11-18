@@ -71,14 +71,18 @@ CREATE OR REPLACE GIT REPOSITORY RUNNINGMAN_GIT_REPO
 ALTER GIT REPOSITORY SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO FETCH;
 
 /*******************************************************************************
- * STEP 2: SETUP - Additional Schemas, Warehouse, Role
+ * STEP 2: SETUP - Database, Schemas, Warehouse, Role
  * 
+ * First create the warehouse so all subsequent operations have compute available.
  * NOTE: Using fully qualified stage paths (@database.schema.stage) to ensure
  * correct resolution even if child scripts change the database/schema context.
  ******************************************************************************/
 
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/01_setup/01_create_database.sql';
 EXECUTE IMMEDIATE FROM '@SNOWFLAKE_EXAMPLE.GIT_REPOS.RUNNINGMAN_GIT_REPO/branches/main/sql/01_setup/02_create_warehouse.sql';
+
+-- Set warehouse context for all subsequent data operations
+USE WAREHOUSE SFE_MARATHON_WH;
 
 /*******************************************************************************
  * STEP 3: DATA GENERATION - Synthetic Marathon Data (~360k rows)

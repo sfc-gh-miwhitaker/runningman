@@ -6,12 +6,14 @@
  * 
  * PURPOSE:
  *   Creates native semantic view using CREATE SEMANTIC VIEW DDL
+ *   Maps to DENORMALIZED fact tables (no separate dimension tables)
  * 
  * CREATES:
  *   - Semantic View: MARATHON_INSIGHTS
  * 
  * PREREQUISITES:
- *   - Analytics tables created (DIM_*, FCT_*)
+ *   - Analytics tables created (FCT_*)
+ *   - Enriched tables created (ENRICHED_*)
  *   - Snowflake Intelligence enabled
  * 
  * IDEMPOTENT: Yes (CREATE OR REPLACE)
@@ -24,65 +26,86 @@ USE WAREHOUSE SFE_MARATHON_WH;
 
 CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
   TABLES (
-    marathons AS DIM_MARATHONS
-      PRIMARY KEY (marathon_id)
-      WITH SYNONYMS = ('events', 'races'),
+    performance AS FCT_MARATHON_PERFORMANCE
+      PRIMARY KEY (marathon_id, race_year)
+      UNIQUE (marathon_id)
+      WITH SYNONYMS = ('marathon stats', 'event performance', 'race results'),
     
-    participants AS DIM_PARTICIPANTS
-      PRIMARY KEY (participant_id)
-      WITH SYNONYMS = ('runners', 'athletes'),
+    sponsor_roi AS FCT_SPONSOR_ROI
+      PRIMARY KEY (sponsor_id, marathon_id, contract_year)
+      WITH SYNONYMS = ('sponsor performance', 'sponsorship'),
     
-    sponsors AS DIM_SPONSORS
-      PRIMARY KEY (sponsor_id)
-      WITH SYNONYMS = ('partners'),
-    
-    performance AS FCT_MARATHON_PERFORMANCE,
-    
-    sponsor_perf AS FCT_SPONSOR_PERFORMANCE,
-    
-    fan_engagement AS FCT_FAN_ENGAGEMENT
+    social AS ENRICHED_SOCIAL_MEDIA
+      PRIMARY KEY (post_id)
+      WITH SYNONYMS = ('fan engagement', 'social media', 'sentiment')
   )
   RELATIONSHIPS (
-    performance(marathon_id) REFERENCES marathons(marathon_id),
-    performance(participant_id) REFERENCES participants(participant_id),
-    sponsor_perf(marathon_id) REFERENCES marathons(marathon_id),
-    sponsor_perf(sponsor_id) REFERENCES sponsors(sponsor_id),
-    fan_engagement(marathon_id) REFERENCES marathons(marathon_id)
+    sponsor_roi(marathon_id) REFERENCES performance(marathon_id)
   )
   DIMENSIONS (
-    marathons.marathon_name AS marathons.marathon_name
-      WITH SYNONYMS = ('event name'),
-    marathons.city AS marathons.city,
-    marathons.country AS marathons.country,
-    marathons.event_year AS marathons.event_year
-      WITH SYNONYMS = ('year'),
-    participants.full_name AS participants.full_name
-      WITH SYNONYMS = ('runner name'),
-    participants.gender AS participants.gender,
-    participants.age AS participants.age,
-    participants.runner_country AS participants.country,
-    sponsors.sponsor_name AS sponsors.sponsor_name,
-    sponsors.industry AS sponsors.industry,
-    sponsors.sponsorship_tier AS sponsors.sponsorship_tier
-      WITH SYNONYMS = ('tier'),
-    performance.overall_rank AS performance.overall_rank
-      WITH SYNONYMS = ('position'),
-    fan_engagement.sentiment_label AS fan_engagement.sentiment_label
-      WITH SYNONYMS = ('sentiment')
+    -- Marathon attributes (from FCT_MARATHON_PERFORMANCE)
+    performance.marathon_name AS performance.marathon_name
+      WITH SYNONYMS = ('event name', 'race name'),
+    performance.city AS performance.city
+      WITH SYNONYMS = ('location'),
+    performance.country AS performance.country,
+    performance.course_difficulty AS performance.course_difficulty
+      WITH SYNONYMS = ('difficulty'),
+    performance.race_year AS performance.race_year
+      WITH SYNONYMS = ('year', 'season'),
+    
+    -- Sponsor attributes (from FCT_SPONSOR_ROI)
+    sponsor_roi.sponsor_name AS sponsor_roi.sponsor_name
+      WITH SYNONYMS = ('sponsor'),
+    sponsor_roi.industry AS sponsor_roi.industry
+      WITH SYNONYMS = ('sector'),
+    sponsor_roi.sponsorship_tier AS sponsor_roi.sponsorship_tier
+      WITH SYNONYMS = ('tier', 'sponsorship level'),
+    sponsor_roi.contract_year AS sponsor_roi.contract_year
+      WITH SYNONYMS = ('sponsorship year'),
+    
+    -- Social media attributes (from ENRICHED_SOCIAL_MEDIA)
+    social.platform AS social.platform
+      WITH SYNONYMS = ('social platform', 'social network'),
+    social.sentiment_category AS social.sentiment_category
+      WITH SYNONYMS = ('sentiment', 'fan sentiment')
   )
   METRICS (
-    performance.avg_finish_time AS AVG(performance.finish_time_minutes)
-      WITH SYNONYMS = ('average time'),
-    performance.avg_pace AS AVG(performance.pace_min_per_km),
-    performance.participant_count AS COUNT(DISTINCT performance.participant_id)
-      WITH SYNONYMS = ('runner count'),
-    sponsor_perf.avg_exposure AS AVG(sponsor_perf.exposure_minutes),
-    sponsor_perf.avg_engagement AS AVG(sponsor_perf.engagement_score),
-    fan_engagement.avg_sentiment AS AVG(fan_engagement.sentiment_score),
-    fan_engagement.total_likes AS SUM(fan_engagement.likes),
-    fan_engagement.total_shares AS SUM(fan_engagement.shares)
+    -- Performance metrics
+    performance.total_participants AS SUM(performance.total_participants)
+      WITH SYNONYMS = ('runner count', 'participant count', 'number of runners'),
+    performance.avg_finish_time AS AVG(performance.avg_finish_time_minutes)
+      WITH SYNONYMS = ('average time', 'average finish time', 'mean finish time'),
+    performance.fastest_time AS MIN(performance.fastest_time_minutes)
+      WITH SYNONYMS = ('best time', 'winning time', 'fastest finish'),
+    performance.slowest_time AS MAX(performance.slowest_time_minutes)
+      WITH SYNONYMS = ('longest time', 'slowest finish'),
+    performance.boston_qualifiers AS SUM(performance.boston_qualifiers)
+      WITH SYNONYMS = ('boston qualifier count', 'BQ count'),
+    performance.qualification_rate AS AVG(performance.qualification_rate_pct)
+      WITH SYNONYMS = ('qualification rate', 'BQ rate', 'boston qualifying percentage'),
+    
+    -- Sponsor ROI metrics
+    sponsor_roi.total_investment AS SUM(sponsor_roi.total_investment)
+      WITH SYNONYMS = ('sponsor spend', 'investment', 'sponsorship cost'),
+    sponsor_roi.contract_value AS SUM(sponsor_roi.contract_value)
+      WITH SYNONYMS = ('contract amount'),
+    sponsor_roi.activation_spend AS SUM(sponsor_roi.activation_spend)
+      WITH SYNONYMS = ('activation cost'),
+    sponsor_roi.avg_exposure AS AVG(sponsor_roi.media_exposure_minutes)
+      WITH SYNONYMS = ('media exposure', 'tv time'),
+    sponsor_roi.cost_efficiency AS AVG(sponsor_roi.cost_per_minute)
+      WITH SYNONYMS = ('cost per minute', 'efficiency'),
+    
+    -- Social media metrics
+    social.post_count AS COUNT(social.post_id)
+      WITH SYNONYMS = ('social media posts', 'post count', 'number of posts'),
+    social.avg_sentiment AS AVG(social.sentiment_score)
+      WITH SYNONYMS = ('sentiment score', 'fan sentiment', 'average sentiment'),
+    social.total_engagement AS SUM(social.engagement_count)
+      WITH SYNONYMS = ('engagement', 'social engagement', 'total interactions')
   )
-  COMMENT = 'DEMO: Semantic view for Snowflake Intelligence';
+  COMMENT = 'DEMO: Semantic view for Snowflake Intelligence - Marathon Analytics';
 
 GRANT SELECT ON SEMANTIC VIEW MARATHON_INSIGHTS TO ROLE SFE_MARATHON_ROLE;
 
@@ -91,4 +114,11 @@ GRANT SELECT ON SEMANTIC VIEW MARATHON_INSIGHTS TO ROLE SFE_MARATHON_ROLE;
  * 1. AI & ML > Snowflake Intelligence
  * 2. Create agent: "Marathon Analytics"  
  * 3. Connect: SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_INSIGHTS
+ * 
+ * EXAMPLE QUERIES:
+ * - "What's the average finish time for Boston Marathon?"
+ * - "Show me sponsor investment by marathon"
+ * - "What's the sentiment for NYC Marathon?"
+ * - "Which marathon has the most boston qualifiers?"
+ * - "Compare media exposure across all sponsors"
  ******************************************************************************/
