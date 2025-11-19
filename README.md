@@ -4,7 +4,7 @@
 
 **Demo Project - NOT FOR PRODUCTION USE**
 
-This is a flagship reference implementation that MUST set the bar for Snowflake Intelligence best practices—fully scripted deployment, governed semantic models, and a turnkey demo experience for global marathon analytics.
+Use this reference implementation to demonstrate Snowflake Intelligence best practices—fully scripted deployment, governed semantic models, and a turnkey global marathon analytics experience.
 
 **Database:** All artifacts created in `SNOWFLAKE_EXAMPLE` database  
 **Isolation:** Uses `SFE_` prefix for account-level objects

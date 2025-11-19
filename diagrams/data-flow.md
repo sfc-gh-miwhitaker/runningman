@@ -41,12 +41,15 @@ graph TB
         STG2[STG_PARTICIPANT_DEMOGRAPHICS<br/>Age Groups, Countries]
         STG3[STG_RACE_PERFORMANCE<br/>Times, Placements]
         STG4[STG_SOCIAL_MEDIA<br/>Text Normalization]
+        STG5[STG_BROADCAST_METRICS<br/>Flatten VARIANT arrays]
     end
 
     subgraph "ANALYTICS Schema (Tables)"
         FACT1[(FCT_MARATHON_PERFORMANCE<br/>Aggregated Metrics)]
         FACT2[(FCT_SPONSOR_ROI<br/>Investment & Exposure)]
         FACT3[(ENRICHED_SOCIAL_MEDIA<br/>Cortex AI Enhanced)]
+        FACT4[(FCT_FAN_ENGAGEMENT<br/>Sentiment per Marathon/Year)]
+        FACT5[(FCT_BROADCAST_REACH<br/>Viewership & Regions)]
     end
 
     subgraph "Cortex AI Enrichment"
@@ -56,9 +59,9 @@ graph TB
 
     subgraph "Semantic Layer"
         SEM1[SEMANTIC VIEW:<br/>MARATHON_INSIGHTS<br/>DDL-Based]
-        SEM2[Logical Tables:<br/>- marathon_performance<br/>- sponsor_roi<br/>- fan_engagement]
-        SEM3[Dimensions:<br/>marathon_name, race_year<br/>sponsor_name, city]
-        SEM4[Metrics:<br/>avg_finish_time<br/>total_participants<br/>cost_per_minute]
+        SEM2[Logical Tables:<br/>- marathon_performance<br/>- sponsor_roi<br/>- fan_engagement<br/>- broadcast<br/>- social_detail]
+        SEM3[Dimensions:<br/>marathon_name, race_year<br/>sponsor_name, city<br/>sentiment_year, platform, broadcast_year]
+        SEM4[Metrics:<br/>avg_finish_time<br/>total_participants<br/>cost_per_minute<br/>avg_sentiment_score<br/>total_viewership]
     end
 
     subgraph "Intelligence Interface"
@@ -87,6 +90,7 @@ graph TB
     RAW2 --> STG2
     RAW3 --> STG3
     RAW5 --> STG4
+    RAW6 --> STG5
 
     STG1 --> FACT1
     STG2 --> FACT1
@@ -99,10 +103,14 @@ graph TB
     STG4 --> CORTEX2
     CORTEX1 --> FACT3
     CORTEX2 --> FACT3
+    FACT3 --> FACT4
+    STG5 --> FACT5
 
     FACT1 --> SEM1
     FACT2 --> SEM1
     FACT3 --> SEM1
+    FACT4 --> SEM1
+    FACT5 --> SEM1
     SEM1 --> SEM2
     SEM2 --> SEM3
     SEM2 --> SEM4
