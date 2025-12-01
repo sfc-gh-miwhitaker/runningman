@@ -1,0 +1,107 @@
+# Demo Expiration Workflow
+# Author: SE Community
+# Purpose: Auto-archive demo repository after expiration date
+#
+# This workflow runs daily and checks if the demo has expired.
+# After expiration, it archives the repository and makes it private.
+
+name: Demo Expiration Check
+
+on:
+  schedule:
+    # Run daily at midnight UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    # Allow manual trigger for testing
+
+env:
+  EXPIRATION_DATE: '2025-12-25'
+
+jobs:
+  check-expiration:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Check if demo has expired
+        id: check
+        run: |
+          CURRENT_DATE=$(date +%Y-%m-%d)
+          EXPIRATION_DATE="${{ env.EXPIRATION_DATE }}"
+          
+          echo "Current date: $CURRENT_DATE"
+          echo "Expiration date: $EXPIRATION_DATE"
+          
+          if [[ "$CURRENT_DATE" > "$EXPIRATION_DATE" ]]; then
+            echo "expired=true" >> $GITHUB_OUTPUT
+            echo "::warning::Demo has expired! Repository will be archived."
+          else
+            echo "expired=false" >> $GITHUB_OUTPUT
+            echo "Demo is still valid until $EXPIRATION_DATE"
+          fi
+
+      - name: Archive repository if expired
+        if: steps.check.outputs.expired == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            console.log(`Archiving repository ${owner}/${repo}...`);
+            
+            try {
+              // Archive the repository
+              await github.rest.repos.update({
+                owner,
+                repo,
+                archived: true
+              });
+              
+              console.log('Repository archived successfully.');
+              
+              // Note: Making a repo private requires admin permissions
+              // and may not work with GITHUB_TOKEN alone.
+              // Contact your GitHub admin to make the repo private after archival.
+              
+            } catch (error) {
+              console.error('Failed to archive repository:', error.message);
+              core.setFailed(error.message);
+            }
+
+      - name: Create expiration notice issue
+        if: steps.check.outputs.expired == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            await github.rest.issues.create({
+              owner,
+              repo,
+              title: '⚠️ Demo Repository Expired',
+              body: `## Demo Expiration Notice
+              
+This demo repository has reached its expiration date of **${{ env.EXPIRATION_DATE }}**.
+
+### What happened:
+- The repository has been archived
+- No further changes can be made
+
+### Why this matters:
+Demo projects are time-limited to ensure users always access current, accurate examples. Snowflake features and best practices evolve, and stale demos can cause confusion.
+
+### Need an updated version?
+Contact SE Community for the latest version of this demo.
+
+### Reference:
+- Original expiration: ${{ env.EXPIRATION_DATE }}
+- Archived on: $(date +%Y-%m-%d)
+              `,
+              labels: ['expired', 'archived']
+            });
+

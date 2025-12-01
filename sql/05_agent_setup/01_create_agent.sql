@@ -2,6 +2,9 @@
  * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
  * Script: Create Snowflake Intelligence Agent
  *
+ * Author: SE Community
+ * Expires: 2025-12-25
+ *
  * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
  *
  * PURPOSE:
@@ -20,7 +23,7 @@ USE DATABASE SNOWFLAKE_EXAMPLE;
 USE SCHEMA ANALYTICS;
 
 CREATE OR REPLACE AGENT MARATHON_AGENT
-  COMMENT = 'DEMO: Marathon Analytics Snowflake Intelligence agent'
+  COMMENT = 'DEMO: Marathon Analytics Snowflake Intelligence agent - Expires 2025-12-25'
   PROFILE = '{"display_name": "Marathon Analytics", "avatar": "finish-line", "color": "blue"}'
   FROM SPECIFICATION
   $$

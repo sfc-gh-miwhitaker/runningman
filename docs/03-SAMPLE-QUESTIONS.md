@@ -58,23 +58,6 @@ This document contains tested natural language queries you can use with Snowflak
 
 **Q8:** `What's the average sentiment by marathon, sorted from highest to lowest?`
 - **Purpose:** Aggregation with sorting
-## Broadcast Reach & Media Impact
-
-**Q31:** `Which marathon delivered the highest total broadcast viewership this year?`
-- **Purpose:** Highlights `FCT_BROADCAST_REACH` totals
-- **Expected Answer:** Marathon name with total viewers
-- **Complexity:** ⭐⭐ Medium
-
-**Q32:** `Show average concurrent viewers by marathon over the last three years`
-- **Purpose:** Trend comparison across events
-- **Expected Answer:** Table or chart with per-marathon averages
-- **Complexity:** ⭐⭐ Medium
-
-**Q33:** `Compare fan sentiment and broadcast reach for each marathon in 2025`
-- **Purpose:** Demonstrates combining fan engagement and broadcast facts
-- **Expected Answer:** Table with sentiment + viewership metrics per marathon
-- **Complexity:** ⭐⭐⭐ Advanced
-
 - **Expected Answer:** Ranked list of marathons by sentiment
 - **Complexity:** ⭐⭐ Medium
 
@@ -212,23 +195,42 @@ This document contains tested natural language queries you can use with Snowflak
 
 ---
 
+## Broadcast Reach & Media Impact
+
+**Q31:** `Which marathon delivered the highest total broadcast viewership this year?`
+- **Purpose:** Highlights `FCT_BROADCAST_REACH` totals
+- **Expected Answer:** Marathon name with total viewers
+- **Complexity:** ⭐⭐ Medium
+
+**Q32:** `Show average concurrent viewers by marathon over the last three years`
+- **Purpose:** Trend comparison across events
+- **Expected Answer:** Table or chart with per-marathon averages
+- **Complexity:** ⭐⭐ Medium
+
+**Q33:** `Compare fan sentiment and broadcast reach for each marathon in 2025`
+- **Purpose:** Demonstrates combining fan engagement and broadcast facts
+- **Expected Answer:** Table with sentiment + viewership metrics per marathon
+- **Complexity:** ⭐⭐⭐ Advanced
+
+---
+
 ## Predictive & Advanced Analytics
 
 ### Stretch Goals (May Require Additional Setup)
 
-**Q31:** `Based on historical trends, predict participant registration for Tokyo Marathon 2026`
+**Q34:** `Based on historical trends, predict participant registration for Tokyo Marathon 2026`
 - **Purpose:** Forecasting
 - **Expected Answer:** Projected registration number
 - **Complexity:** ⭐⭐⭐⭐ Expert
 - **Note:** May require ML model or fail gracefully
 
-**Q32:** `What factors correlate most strongly with high fan sentiment?`
+**Q35:** `What factors correlate most strongly with high fan sentiment?`
 - **Purpose:** Correlation analysis across multiple variables
 - **Expected Answer:** List of factors (e.g., weather, finish time, course difficulty)
 - **Complexity:** ⭐⭐⭐⭐ Expert
 - **Note:** Requires statistical analysis capability
 
-**Q33:** `Identify outlier performances in the Chicago Marathon`
+**Q36:** `Identify outlier performances in the Chicago Marathon`
 - **Purpose:** Anomaly detection
 - **Expected Answer:** List of unusually fast/slow times
 - **Complexity:** ⭐⭐⭐⭐ Expert
@@ -239,17 +241,17 @@ This document contains tested natural language queries you can use with Snowflak
 
 These queries span multiple business areas:
 
-**Q34:** `Show me all data for the London Marathon: participants, sentiment, sponsors, and broadcast metrics`
+**Q37:** `Show me all data for the London Marathon: participants, sentiment, sponsors, and broadcast metrics`
 - **Purpose:** Comprehensive single-entity view
 - **Expected Answer:** Multi-table summary
 - **Complexity:** ⭐⭐⭐ Advanced
 
-**Q35:** `Which marathon offers the best combination of high participant satisfaction and high sponsor ROI?`
+**Q38:** `Which marathon offers the best combination of high participant satisfaction and high sponsor ROI?`
 - **Purpose:** Multi-metric optimization
 - **Expected Answer:** Marathon name with supporting metrics
 - **Complexity:** ⭐⭐⭐⭐ Expert
 
-**Q36:** `Compare overall value (fan engagement + sponsor exposure + participation) across all six marathons`
+**Q39:** `Compare overall value (fan engagement + sponsor exposure + participation) across all six marathons`
 - **Purpose:** Composite metric calculation
 - **Expected Answer:** Ranked list with scores
 - **Complexity:** ⭐⭐⭐⭐ Expert
@@ -364,6 +366,6 @@ Before your demo, test:
 
 ---
 
-**Last Updated:** 2025-11-17  
-**Total Queries:** 36 (3 basic, 19 medium, 11 advanced, 3 expert)
+**Last Updated:** 2025-11-25  
+**Total Queries:** 39 (3 basic, 22 medium, 11 advanced, 3 expert)
 

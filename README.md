@@ -1,8 +1,17 @@
 # Global Marathon Analytics - Snowflake Intelligence Demo
 
 ![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
+![Reference Implementation](https://img.shields.io/badge/Reference-Implementation-blue)
+![Ready to Run](https://img.shields.io/badge/Ready%20to%20Run-Yes-green)
+![Expires](https://img.shields.io/badge/Expires-2025--12--25-orange)
 
-**Demo Project - NOT FOR PRODUCTION USE**
+> **DEMONSTRATION PROJECT - EXPIRES: 2025-12-25**  
+> This demo uses Snowflake features current as of November 2025.  
+> After expiration, this repository will be archived and made private.
+
+**Author:** SE Community  
+**Purpose:** Reference implementation for marathon event analytics  
+**Created:** 2025-11-17 | **Expires:** 2025-12-25 (30 days) | **Status:** ACTIVE
 
 Use this reference implementation to demonstrate Snowflake Intelligence best practices—fully scripted deployment, governed semantic models, and a turnkey global marathon analytics experience.
 
@@ -18,7 +27,7 @@ Use this reference implementation to demonstrate Snowflake Intelligence best pra
 ### Quick Start (Recommended)
 
 1. **Open & Run in Snowsight** (10 min)
-   - Copy the entire `sql/00_deploy_all.sql` file into a new Snowsight worksheet
+   - Copy the entire `deploy_all.sql` file (in project root) into a new Snowsight worksheet
    - Click **"Run All"** ⚡ (or Cmd/Ctrl+Shift+Enter)
    - Script automatically:
      - Creates API integration for git access
@@ -30,17 +39,17 @@ Use this reference implementation to demonstrate Snowflake Intelligence best pra
 2. **Verify Intelligence Agent** (2 min)
    - Script now auto-creates agent `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT`
    - Confirm via Snowsight → AI & ML → Snowflake Intelligence (should see **Marathon Analytics**)
-   - (Optional) Customize instructions/model via [docs/06-INTELLIGENCE-AGENT.md](docs/06-INTELLIGENCE-AGENT.md)
+   - (Optional) Customize instructions/model via [docs/05-INTELLIGENCE-AGENT.md](docs/05-INTELLIGENCE-AGENT.md)
 
-3. **Run Demo** - [docs/02-DEMO-SCRIPT.md](docs/02-DEMO-SCRIPT.md) (30-45 min)
+3. **Run Demo** - [docs/02-DEMO-WALKTHROUGH.md](docs/02-DEMO-WALKTHROUGH.md) (30-45 min)
    - Follow presenter script
-   - Try queries from [docs/04-SAMPLE-QUESTIONS.md](docs/04-SAMPLE-QUESTIONS.md)
+   - Try queries from [docs/03-SAMPLE-QUESTIONS.md](docs/03-SAMPLE-QUESTIONS.md)
 
 **Total setup: ~15 minutes** | **Demo: 30-45 minutes**
 
 ### What Happens Under the Hood?
 
-The `00_deploy_all.sql` script:
+The `deploy_all.sql` script:
 1. Creates API integration (connects Snowflake to git)
 2. Creates git repository stage (clones your repo)
 3. Fetches latest code from remote
@@ -83,13 +92,12 @@ runningman/
 ├── README.md                    # This file
 ├── docs/                        # User-facing documentation
 │   ├── 01-SETUP.md             # Prerequisites & setup
-│   ├── 02-DEMO-SCRIPT.md       # Complete presenter script
-│   ├── 03-DEMO-WALKTHROUGH.md  # Step-by-step guide
-│   ├── 04-SAMPLE-QUESTIONS.md  # Natural language queries
-│   ├── 05-TECHNICAL-REFERENCE.md # Architecture details
-│   └── 06-INTELLIGENCE-AGENT.md # Agent specification & customization
+│   ├── 02-DEMO-WALKTHROUGH.md  # Step-by-step guide
+│   ├── 03-SAMPLE-QUESTIONS.md  # Natural language queries
+│   ├── 04-TECHNICAL-REFERENCE.md # Architecture details
+│   └── 05-INTELLIGENCE-AGENT.md # Agent specification & customization
+├── deploy_all.sql               # 🚀 MASTER SCRIPT - Copy-paste into Snowsight!
 ├── sql/                         # SQL scripts
-│   ├── 00_deploy_all.sql       # 🚀 MASTER SCRIPT - Copy-paste into Snowsight!
 │   ├── 01_setup/               # Database, warehouse, schema creation
 │   ├── 02_data_generation/     # Synthetic data (50K+ rows)
 │   ├── 03_transformations/     # Staging & analytics layers
@@ -97,6 +105,7 @@ runningman/
 │   ├── 05_agent_setup/         # Snowflake Intelligence agent creation
 │   └── 99_cleanup/             # Complete teardown
 └── diagrams/                    # Architecture diagrams (Mermaid)
+    ├── data-model.md
     ├── data-flow.md
     ├── network-flow.md
     └── auth-flow.md
@@ -205,7 +214,8 @@ For questions or issues:
 This code demonstrates production-grade architectural patterns and best practices. Review and customize security, networking, and business logic for your organization's specific requirements before any production deployment.
 
 **Status:** Demo/Example Project  
-**Last Updated:** 2025-11-17  
+**Last Updated:** 2025-11-25  
+**Expires:** 2025-12-25  
 **Target Audience:** Marathon event organizers and sports analytics professionals  
 **Demo Duration:** 30-45 minutes
 

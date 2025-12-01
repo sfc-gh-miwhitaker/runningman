@@ -2,6 +2,9 @@
  * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
  * Script: Virtual Warehouse Creation
  * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
  * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
  * 
  * PURPOSE:
@@ -28,7 +31,7 @@ CREATE WAREHOUSE IF NOT EXISTS SFE_MARATHON_WH
   AUTO_SUSPEND = 60
   AUTO_RESUME = TRUE
   INITIALLY_SUSPENDED = FALSE
-  COMMENT = 'DEMO: Compute for marathon analytics';
+  COMMENT = 'DEMO: Compute for marathon analytics - Expires 2025-12-25';
 
 -- Grant usage to demo role
 GRANT USAGE ON WAREHOUSE SFE_MARATHON_WH TO ROLE SFE_MARATHON_ROLE;

@@ -1,5 +1,27 @@
 /*******************************************************************************
- * DEMO: Create Analytics Fact Tables
+ * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
+ * Script: Create Analytics Fact Tables
+ * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
+ * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
+ * 
+ * PURPOSE:
+ *   Creates denormalized fact tables for analytics and semantic view
+ * 
+ * CREATES:
+ *   - FCT_MARATHON_PERFORMANCE (aggregated race metrics)
+ *   - FCT_SPONSOR_ROI (sponsorship investment analysis)
+ *   - FCT_BROADCAST_REACH (media viewership metrics)
+ *   - FCT_FAN_ENGAGEMENT (aggregated sentiment by marathon/year)
+ * 
+ * DEPENDENCIES:
+ *   - RAW_INGESTION tables populated
+ *   - STAGING views created
+ *   - ENRICHED_SOCIAL_MEDIA table created (03_cortex_enrichment.sql)
+ * 
+ * IDEMPOTENT: Yes (CREATE OR REPLACE)
  ******************************************************************************/
 
 USE ROLE ACCOUNTADMIN;

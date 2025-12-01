@@ -2,6 +2,9 @@
  * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
  * Script: Database and Schema Creation
  * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
  * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
  * 
  * PURPOSE:
@@ -22,25 +25,25 @@ USE ROLE ACCOUNTADMIN;
 
 -- Create database (preserves if exists)
 CREATE DATABASE IF NOT EXISTS SNOWFLAKE_EXAMPLE
-  COMMENT = 'DEMO: Global Marathon Analytics - NOT FOR PRODUCTION';
+  COMMENT = 'DEMO: Repository for example/demo projects - NOT FOR PRODUCTION';
 
 USE DATABASE SNOWFLAKE_EXAMPLE;
 
 -- Create RAW_INGESTION schema
 CREATE SCHEMA IF NOT EXISTS RAW_INGESTION
-  COMMENT = 'DEMO: Landing zone for raw data';
+  COMMENT = 'DEMO: Landing zone for raw data - Expires 2025-12-25';
 
 -- Create STAGING schema
 CREATE SCHEMA IF NOT EXISTS STAGING
-  COMMENT = 'DEMO: Cleaned and standardized data';
+  COMMENT = 'DEMO: Cleaned and standardized data - Expires 2025-12-25';
 
 -- Create ANALYTICS schema
 CREATE SCHEMA IF NOT EXISTS ANALYTICS
-  COMMENT = 'DEMO: Analytics-ready tables and semantic views';
+  COMMENT = 'DEMO: Analytics-ready tables and semantic views - Expires 2025-12-25';
 
 -- Create demo role
 CREATE ROLE IF NOT EXISTS SFE_MARATHON_ROLE
-  COMMENT = 'DEMO: Role for marathon analytics demo users';
+  COMMENT = 'DEMO: Role for marathon analytics demo users - Expires 2025-12-25';
 
 -- Grant database and schema privileges
 GRANT USAGE ON DATABASE SNOWFLAKE_EXAMPLE TO ROLE SFE_MARATHON_ROLE;

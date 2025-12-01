@@ -91,7 +91,7 @@ SELECT SNOWFLAKE.CORTEX.SENTIMENT('This is a great demo!') AS test_sentiment;
 - ✅ Warehouse: `SFE_MARATHON_WH`
 - ✅ Role: `SFE_MARATHON_ROLE`
 - ✅ API Integration + Git repository stage
-- ✅ Synthetic data: 12 marathons, 50K participants, 300K+ race results, 10K+ social posts, 18 broadcast entries
+- ✅ Synthetic data: 6 marathons, 50K participants, 300K+ race results, 10K+ social posts, 18 broadcast entries
 - ✅ Aggregated facts: `FCT_FAN_ENGAGEMENT`, `FCT_BROADCAST_REACH`, plus existing performance & sponsor tables
 - ✅ Semantic view: `MARATHON_INSIGHTS`
 - ✅ Snowflake Intelligence agent: `SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT`
@@ -165,7 +165,7 @@ DESCRIBE AGENT SNOWFLAKE_EXAMPLE.ANALYTICS.MARATHON_AGENT;
 ```
 
 **Expected Results:**
-- ✅ 12 marathons
+- ✅ 6 marathons
 - ✅ 50,000 participants
 - ✅ 300,000+ race results
 - ✅ 10,000+ social media posts

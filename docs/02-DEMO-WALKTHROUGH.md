@@ -2,7 +2,7 @@
 
 **Reference During Live Demo**
 
-This guide provides detailed steps for executing the Global Marathon Analytics Snowflake Intelligence demo. Use this alongside `docs/02-DEMO-SCRIPT.md` during your presentation.
+This guide provides detailed steps for executing the Global Marathon Analytics Snowflake Intelligence demo. Use this as your primary presenter reference during the demo.
 
 ---
 
@@ -72,7 +72,7 @@ If this works, you're ready to demo!
 
 **Action:** Share your screen (Snowsight tab)
 
-**Say:** Follow opening from `docs/02-DEMO-SCRIPT.md`
+**Say:** "Today I'll show you how Snowflake Intelligence transforms the way marathon organizers access data insights..."
 
 **Show:** Snowsight home page, then navigate to Intelligence
 
@@ -385,7 +385,7 @@ If this works, you're ready to demo!
 
 ### Q&A Handling (5 min)
 
-Use the objection handling section from `docs/02-DEMO-SCRIPT.md`
+Use the objection handling section from this walkthrough guide
 
 #### Common Questions:
 
@@ -407,7 +407,7 @@ Use the objection handling section from `docs/02-DEMO-SCRIPT.md`
 
 **Action:** Stop sharing screen (or show closing slide)
 
-**Say:** Follow closing from demo script
+**Say:** "We've seen how Snowflake Intelligence enables business users to get answers in seconds, with full transparency into the SQL being generated..."
 
 **Key points:**
 - POC in 2-3 weeks
@@ -527,7 +527,7 @@ Always have a backup plan:
 **Good luck with your demo!**
 
 For questions or additional support, refer to:
-- `docs/02-DEMO-SCRIPT.md` - Complete presenter talking points
-- `docs/04-SAMPLE-QUESTIONS.md` - 30+ tested queries
-- `docs/05-TECHNICAL-REFERENCE.md` - Architecture details
+- `docs/03-SAMPLE-QUESTIONS.md` - 30+ tested queries
+- `docs/04-TECHNICAL-REFERENCE.md` - Architecture details
+- `docs/05-INTELLIGENCE-AGENT.md` - Agent customization
 

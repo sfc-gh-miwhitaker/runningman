@@ -1,5 +1,27 @@
 /*******************************************************************************
- * DEMO: Create Staging Views (No Physical Storage)
+ * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
+ * Script: Create Staging Views (No Physical Storage)
+ * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
+ * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
+ * 
+ * PURPOSE:
+ *   Creates staging views for data cleaning and transformation
+ *   Views use no additional storage (query RAW_INGESTION directly)
+ * 
+ * CREATES:
+ *   - STG_MARATHON_DETAILS
+ *   - STG_PARTICIPANT_DEMOGRAPHICS
+ *   - STG_RACE_PERFORMANCE
+ *   - STG_SOCIAL_MEDIA
+ *   - STG_BROADCAST_METRICS
+ * 
+ * DEPENDENCIES:
+ *   - RAW_INGESTION tables populated
+ * 
+ * IDEMPOTENT: Yes (CREATE OR REPLACE)
  ******************************************************************************/
 
 USE ROLE ACCOUNTADMIN;

@@ -2,6 +2,9 @@
  * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
  * Script: Generate Marathon Master Data
  * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
  * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
  * 
  * PURPOSE:
@@ -13,6 +16,8 @@
  * DEPENDENCIES:
  *   - Database and schemas created (sql/01_setup/01_create_database.sql)
  *   - Warehouse created (sql/01_setup/02_create_warehouse.sql)
+ * 
+ * IDEMPOTENT: Yes (CREATE OR REPLACE)
  ******************************************************************************/
 
 USE ROLE ACCOUNTADMIN;
@@ -31,7 +36,7 @@ CREATE OR REPLACE TABLE MARATHONS (
     course_difficulty VARCHAR(20),
     established_year INTEGER,
     average_participants INTEGER
-) COMMENT = 'DEMO: Six major world marathons';
+) COMMENT = 'DEMO: Six major world marathons - Expires 2025-12-25';
 
 -- Insert 6 major marathons
 INSERT INTO MARATHONS VALUES
@@ -41,7 +46,6 @@ INSERT INTO MARATHONS VALUES
   (4, 'Berlin Marathon', 'Berlin', 'Germany', 'September', 20, 'Easy', 1974, 45000),
   (5, 'Chicago Marathon', 'Chicago', 'USA', 'October', 15, 'Easy', 1977, 45000),
   (6, 'New York City Marathon', 'New York', 'USA', 'November', 280, 'Moderate', 1970, 53000);
-SELECT * FROM MARATHONS ORDER BY marathon_id;
 
 /*******************************************************************************
  * END OF SCRIPT

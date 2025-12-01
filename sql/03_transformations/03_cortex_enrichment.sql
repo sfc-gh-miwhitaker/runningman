@@ -1,5 +1,26 @@
 /*******************************************************************************
- * DEMO: Enrich Social Media with Cortex AI SENTIMENT()
+ * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
+ * Script: Enrich Social Media with Cortex AI SENTIMENT()
+ * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
+ * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
+ * 
+ * PURPOSE:
+ *   Applies Cortex SENTIMENT analysis to social media posts
+ *   Creates enriched table with sentiment scores and categories
+ * 
+ * CREATES:
+ *   - ANALYTICS.ENRICHED_SOCIAL_MEDIA (10K rows with sentiment)
+ * 
+ * DEPENDENCIES:
+ *   - RAW_INGESTION.SOCIAL_MEDIA_POSTS populated
+ *   - Cortex AI functions available (SNOWFLAKE.CORTEX.SENTIMENT)
+ * 
+ * COST: ~0.10 credits for 10K posts (~1M tokens)
+ * 
+ * IDEMPOTENT: Yes (CREATE OR REPLACE)
  ******************************************************************************/
 
 USE ROLE ACCOUNTADMIN;

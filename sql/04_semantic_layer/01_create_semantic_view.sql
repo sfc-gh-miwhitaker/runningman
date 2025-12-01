@@ -2,6 +2,9 @@
  * DEMO PROJECT: Global Marathon Analytics - Snowflake Intelligence Demo
  * Script: Create Semantic View
  * 
+ * Author: SE Community
+ * Expires: 2025-12-25
+ * 
  * ⚠️  NOT FOR PRODUCTION USE - EXAMPLE IMPLEMENTATION ONLY
  * 
  * PURPOSE:
@@ -150,7 +153,7 @@ CREATE OR REPLACE SEMANTIC VIEW MARATHON_INSIGHTS
     broadcast.avg_region_count AS AVG(broadcast.broadcast_region_count)
       WITH SYNONYMS = ('regions reached', 'market count', 'avg broadcast regions')
   )
-  COMMENT = 'DEMO: Semantic view for Snowflake Intelligence - Marathon Analytics';
+  COMMENT = 'DEMO: Semantic view for Snowflake Intelligence - Marathon Analytics - Expires 2025-12-25';
 
 GRANT SELECT ON SEMANTIC VIEW MARATHON_INSIGHTS TO ROLE SFE_MARATHON_ROLE;
 

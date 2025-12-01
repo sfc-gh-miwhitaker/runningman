@@ -1,4 +1,4 @@
-# 06 - INTELLIGENCE-AGENT
+# 05 - Intelligence Agent Specification
 
 ## Purpose
 

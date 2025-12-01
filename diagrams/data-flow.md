@@ -1,7 +1,8 @@
 # Data Flow - Global Marathon Analytics Demo
 
-**Author:** Michael Whitaker  
-**Last Updated:** 2025-11-17  
+**Author:** SE Community  
+**Last Updated:** 2025-11-25  
+**Expires:** 2025-12-25  
 **Status:** Reference Implementation
 
 ![Snowflake](https://img.shields.io/badge/Snowflake-29B5E8?style=for-the-badge&logo=snowflake&logoColor=white)
@@ -411,6 +412,6 @@ See `.cursor/DIAGRAM_CHANGELOG.md` for version history and architecture decision
 
 ---
 
-**Last Updated:** 2025-11-17  
+**Last Updated:** 2025-11-25  
 **Next:** See `network-flow.md` for Snowflake infrastructure architecture
 
